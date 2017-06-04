@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using monogame_test.Entities;
+using monogame_test.Maps;
 using TexturePackerLoader;
 
 namespace monogame_test
@@ -14,7 +15,10 @@ namespace monogame_test
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteSheetLoader _spriteSheetLoader;
-        private EntityFactory _factory;        
+        private EntityFactory _factory;
+        private MapManager _mapManager;
+
+        public static Texture2D BBoxOutline;
 
         public Game()
         {
@@ -32,7 +36,7 @@ namespace monogame_test
         {
             // TODO: Add your initialization logic here
             
-            base.Initialize();
+            base.Initialize();            
         }
         
         /// <summary>
@@ -44,10 +48,16 @@ namespace monogame_test
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);            
             _spriteSheetLoader = new SpriteSheetLoader(this.Content);
-            _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader, _spriteBatch);
+
+            BBoxOutline = Content.Load<Texture2D>("bbox_outline");
+
+            _mapManager = new MapManager(_spriteSheetLoader, _spriteBatch);
+            _mapManager.Load();
+
+            _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader, _spriteBatch, _mapManager);
             _factory.CreateTerraEntity();
 
-            // TODO: use this.Content to load your game content here                        
+            // TODO: use this.Content to load your game content here                                    
         }
 
         /// <summary>
@@ -66,10 +76,13 @@ namespace monogame_test
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
+                || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
+            _mapManager.Update(gameTime);
+
             foreach(Entity entity in _factory.EntityRegistry)
             {
                 entity.Update(gameTime);
@@ -86,7 +99,9 @@ namespace monogame_test
         {            
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);           
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            _mapManager.Draw(gameTime);         
 
             foreach(Entity entity in _factory.EntityRegistry)
             {

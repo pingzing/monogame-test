@@ -31,6 +31,7 @@ namespace monogame_test.AnimationSystem
                 .ToArray();
         }
 
+        // TODO: Updating this mid-animation will usually skip us forward a few frames. Address this somehow, maybe by explicitly setting _timeElapsed.
         public void SetTimeBetweenFrames(TimeSpan newTime)
         {
             foreach(var frame in _frames)

@@ -50,10 +50,14 @@
     <Compile Include="Components\Terra\TerraGraphicsComponent.cs" />
     <Compile Include="Components\Terra\TerraInputComponent.cs" />
     <Compile Include="Components\Terra\TerraPhysicsComponent.cs" />
+    <Compile Include="Content\CafeTileset.cs" />
+    <Compile Include="Content\GlobalTileset.cs" />
     <Compile Include="Content\TestTerraAtlas.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Maps\MapManager.cs" />
+    <Compile Include="Maps\TestMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TexturePackerLoader\SpriteFrame.cs" />

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using monogame_test.Components.Terra;
+using monogame_test.Maps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,19 @@ namespace monogame_test.Entities
         private GraphicsDevice _graphics;
         private SpriteSheetLoader _spriteSheetLoader;
         private SpriteBatch _entitySpriteBatch;
+        private MapManager _mapManager;
 
         public List<Entity> EntityRegistry { get; private set; }
 
         public EntityFactory(GraphicsDevice graphics,
             SpriteSheetLoader spriteSheetLoader, 
-            SpriteBatch entitySpriteBatch)
+            SpriteBatch entitySpriteBatch,
+            MapManager mapManager)
         {
             _graphics = graphics;
             _spriteSheetLoader = spriteSheetLoader;
             _entitySpriteBatch = entitySpriteBatch;
+            _mapManager = mapManager;
             EntityRegistry = new List<Entity>();
         }
 
@@ -35,8 +39,10 @@ namespace monogame_test.Entities
 
             var terra = new Entity(terraGraphics,
                 terraPhysics,
-                terraInput);
+                terraInput,
+                _mapManager);
             EntityRegistry.Add(terra);
+
             return terra;
         }
     }

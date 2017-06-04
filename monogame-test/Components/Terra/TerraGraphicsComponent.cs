@@ -27,7 +27,8 @@ namespace monogame_test.Components.Terra
         private Animation _walkUpAnimation;
         private Animation _walkDownAnimation;
 
-        private Animation _currentAnimation;          
+        private Animation _currentAnimation;
+        private Texture2D _bBoxOutline;    
 
         public TerraGraphicsComponent(GraphicsDevice graphicsDevice, SpriteSheetLoader spriteSheetLoader,
             SpriteBatch spriteBatch, TerraInputComponent terraInput)
@@ -36,7 +37,7 @@ namespace monogame_test.Components.Terra
             _spriteBatch = spriteBatch;
             _spriteRender = new SpriteRender(_spriteBatch);
             _spriteSheetLoader = spriteSheetLoader;
-            _terraSheet = spriteSheetLoader.Load("test-terra-atlas");
+            _terraSheet = spriteSheetLoader.Load("test-terra-atlas");            
 
             _standLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
@@ -141,10 +142,13 @@ namespace monogame_test.Components.Terra
             var currentFrame = _currentAnimation.GetCurrentFrame();
             _spriteRender.Draw(currentFrame.SpriteFrame,
                 new Vector2(entity.X, entity.Y),
+                1,
                 Color.White,
                 rotation: 0,
                 scale: 4,
                 spriteEffects: currentFrame.SpriteEffect);
+
+            _spriteBatch.Draw(Game.BBoxOutline, entity.BoundingBox, Color.White);
         }
     }
 }
