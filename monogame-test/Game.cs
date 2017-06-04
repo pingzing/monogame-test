@@ -1,20 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using monogame_test.Entities;
+using TexturePackerLoader;
 
 namespace monogame_test
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        
-        public Game1()
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private SpriteSheetLoader _spriteSheetLoader;
+        private EntityFactory _factory;        
+
+        public Game()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -27,10 +31,10 @@ namespace monogame_test
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             base.Initialize();
         }
-
+        
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -38,9 +42,12 @@ namespace monogame_test
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);            
+            _spriteSheetLoader = new SpriteSheetLoader(this.Content);
+            _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader, _spriteBatch);
+            _factory.CreateTerraEntity();
 
-            // TODO: use this.Content to load your game content here
+            // TODO: use this.Content to load your game content here                        
         }
 
         /// <summary>
@@ -63,6 +70,10 @@ namespace monogame_test
                 Exit();
 
             // TODO: Add your update logic here
+            foreach(Entity entity in _factory.EntityRegistry)
+            {
+                entity.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -72,11 +83,17 @@ namespace monogame_test
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
+        {            
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);           
 
+            foreach(Entity entity in _factory.EntityRegistry)
+            {
+                entity.Draw(gameTime);
+            }
+
+            _spriteBatch.End();            
             base.Draw(gameTime);
         }
     }
