@@ -46,7 +46,7 @@ namespace monogame_test
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);            
+            _spriteBatch = new SpriteBatch(GraphicsDevice);               
             _spriteSheetLoader = new SpriteSheetLoader(this.Content);
 
             BBoxOutline = Content.Load<Texture2D>("bbox_outline");
@@ -99,7 +99,7 @@ namespace monogame_test
         {            
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
 
             _mapManager.Draw(gameTime);         
 

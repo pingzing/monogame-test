@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using monogame_test.RenderHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,8 @@ namespace monogame_test.Maps
             "##############################".ToCharArray(),
         };
 
+        private MapTile[] DrawnMap;
+
         private readonly Dictionary<char, string> CharToTile = new Dictionary<char, string>
         {
             { '.', CafeTileset.CarpetMiddle},
@@ -62,29 +65,50 @@ namespace monogame_test.Maps
         }
 
         public void Update(GameTime gameTime)
-        {
-            // ???
-        }
-
-        public void Draw(GameTime gameTime)
-        {
+        {            
+            DrawnMap = new MapTile[MapGrid.Count * MapGrid[0].Length];
             int rowNum = 0;
             foreach (var row in MapGrid)
             {
                 int colNum = 0;
                 foreach (var cell in row)
-                {
-                    _spriteRender.Draw(
-                        sprite: _testMapSheet.Sprite(CharToTile[cell]),
-                        position: ModelToWorld(rowNum, colNum),
-                        layerDepth: 0,
-                        color: Color.White,
-                        rotation: 0,
-                        scale: 1,
-                        spriteEffects: SpriteEffects.None);
+                {                    
+                    Vector2 coords = ModelToWorld(rowNum, colNum);
+                    int index = MapGrid[0].Length * rowNum + colNum;
+                    DrawnMap[index] = new MapTile
+                    {
+                        BoundingBoxOrigin = _testMapSheet.Sprite(CharToTile[MapGrid[rowNum][colNum]]).Origin,
+                        BoundingBox = new RectangleF(coords.X, coords.Y, TileWidth, TileHeight),
+                        Position = new Vector2(coords.X, coords.Y),
+                        ModelChar = MapGrid[rowNum][colNum]
+                    };
+
                     colNum++;
-                }
+                }                
                 rowNum++;
+            }
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+           foreach (MapTile tile in DrawnMap)
+            {
+                _spriteRender.Draw(
+                    _testMapSheet.Sprite(CharToTile[tile.ModelChar]),                    
+                    tile.Position,
+                    0.5f,
+                    Color.White,
+                    0, 
+                    1, 
+                    SpriteEffects.None);                
+            }
+
+           foreach(MapTile tile in DrawnMap)
+            {
+                if (tile.ModelChar == '_' || tile.ModelChar == '#')
+                {
+                    BoundingBoxHelper.DrawRectangle(tile.BoundingBox, Game.BBoxOutline, Color.White, _spriteBatch, false, 1);
+                }
             }
         }
 
@@ -104,34 +128,20 @@ namespace monogame_test.Maps
             return ModelToWorld(row, col);
         }
 
-        internal Rectangle GetIntersection(Rectangle proposedNewPosition)
+        internal RectangleF GetIntersection(RectangleF proposedNewPosition)
         {
-            int rowNum = 0;
-            foreach (var row in MapGrid)
+            foreach (MapTile tile in DrawnMap)
             {
-                int colNum = 0;
-                foreach (var cell in row)
+                if (tile.ModelChar == '_' || tile.ModelChar == '#')
                 {
-                    if (cell == '_' || cell == '#')
+                    RectangleF intersection = RectangleF.Intersect(proposedNewPosition, tile.BoundingBox);
+                    if (intersection != RectangleF.Empty)
                     {
-                        var blockCoords = ModelToWorld(rowNum, colNum);
-                        var rectangle = new Rectangle((int)blockCoords.X, (int)blockCoords.Y, (int)TileWidth, (int)TileHeight);
-                        Rectangle intersection = Rectangle.Intersect(rectangle, proposedNewPosition);
-                        if (!intersection.IsEmpty)
-                        {
-                            return intersection;
-                        }
+                        return intersection;
                     }
-                    else
-                    {
-                        colNum++;
-                        continue;
-                    }
-                    colNum++;
                 }
-                rowNum++;
             }
-            return Rectangle.Empty;
+            return RectangleF.Empty;
         }
 
         private Vector2 ModelToWorld(int rowNum, int colNum)

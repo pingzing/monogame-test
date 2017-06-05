@@ -56,10 +56,13 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Maps\MapTile.cs" />
     <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Maps\TestMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderHelpers\BoundingBoxHelper.cs" />
+    <Compile Include="RenderHelpers\RectangleF.cs" />
     <Compile Include="TexturePackerLoader\SpriteFrame.cs" />
     <Compile Include="TexturePackerLoader\SpriteRender.cs" />
     <Compile Include="TexturePackerLoader\SpriteSheet.cs" />

@@ -6,6 +6,7 @@ using monogame_test.AnimationSystem;
 using Microsoft.Xna.Framework;
 using TexturePackerMonoGameDefinitions;
 using Microsoft.Xna.Framework.Input;
+using monogame_test.RenderHelpers;
 
 namespace monogame_test.Components.Terra
 {
@@ -132,23 +133,26 @@ namespace monogame_test.Components.Terra
 
             TimeSpan newFrameTime = TimeSpan.FromMilliseconds(
                 TerraInputComponent.DefaultVelocity /
-                Math.Max(1, ((Math.Abs(entity.XVelocity) + Math.Abs(entity.YVelocity)) / TerraInputComponent.DefaultVelocity)));
+                Math.Max(1, ((Math.Abs(entity.Velocity.X) + Math.Abs(entity.Velocity.Y)) / TerraInputComponent.DefaultVelocity)));
             _currentAnimation.SetTimeBetweenFrames(newFrameTime);
             _currentAnimation.Update(deltaTime);
+
+            Vector2 currentFrameOrigin = _currentAnimation.GetCurrentFrame().SpriteFrame.Origin;
+            entity.BoundingBoxOrigin = new Vector2(currentFrameOrigin.X, currentFrameOrigin.Y - 12);
         }
 
         public void Draw(GameTime deltaTime, Entity entity)
         {
             var currentFrame = _currentAnimation.GetCurrentFrame();
             _spriteRender.Draw(currentFrame.SpriteFrame,
-                new Vector2(entity.X, entity.Y),
+                new Vector2(entity.Position.X, entity.Position.Y),
                 1,
                 Color.White,
                 rotation: 0,
-                scale: 4,
+                scale: entity.Scale,
                 spriteEffects: currentFrame.SpriteEffect);
 
-            _spriteBatch.Draw(Game.BBoxOutline, entity.BoundingBox, Color.White);
+            BoundingBoxHelper.DrawRectangle(entity.BoundingBox, Game.BBoxOutline, Color.White, _spriteBatch, false, 1);
         }
     }
 }

@@ -41,6 +41,7 @@ namespace monogame_test.Entities
                 terraPhysics,
                 terraInput,
                 _mapManager);
+            terra.Scale = 4f;
             EntityRegistry.Add(terra);
 
             return terra;
