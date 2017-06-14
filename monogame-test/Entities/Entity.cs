@@ -12,8 +12,9 @@ namespace monogame_test.Entities
 
         protected IInputComponent InputComponent;
         protected IGraphicsComponent GraphicsComponent;
-        protected IPhysicsComponent PhysicsComponent;        
+        protected IPhysicsComponent PhysicsComponent;
 
+        public IEntityState State { get; set; }
         public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }
         public float Scale { get; set; } = 1.0f;        
@@ -36,7 +37,11 @@ namespace monogame_test.Entities
         public Vector2 BoundingBoxOrigin
         {
             get { return _boundingBoxOrigin; }
-            set { _boundingBoxOrigin = value * Scale; }
+            set
+            {
+                _boundingBoxOrigin = value * Scale;
+                System.Diagnostics.Debug.WriteLine($"New origin: {_boundingBoxOrigin.X}, {_boundingBoxOrigin.Y}");
+            }
         }
 
         public Entity(IGraphicsComponent graphics, IPhysicsComponent physics, IInputComponent input, MapManager mapManager)

@@ -35,7 +35,7 @@ namespace monogame_test.Maps
             "##############################".ToCharArray(),
         };
 
-        private MapTile[] DrawnMap;
+        private MapTile[,] DrawnMap;
 
         private readonly Dictionary<char, string> CharToTile = new Dictionary<char, string>
         {
@@ -59,6 +59,84 @@ namespace monogame_test.Maps
             _spriteLoader = spriteSheetLoader;
         }
 
+        // todo: allow passing in more than a single point, and checking more than a single row simultaneously
+        internal RectangleF GetNearestHorizontalCollidedObject(float bboxXCoordinate, float bboxMiddleY, bool goingRight)
+        {
+            if (goingRight)
+            {
+                RectangleF nearestBoundingBox = default(RectangleF);
+                float bboxDiff = float.MaxValue;
+
+                int rowIndex = (int)bboxMiddleY / (int)TileHeight;
+                int endIndex = MapGrid[0].Length;
+                for (int i = 0; i < endIndex; i++)
+                {
+                    if (Math.Abs(DrawnMap[rowIndex, i].BoundingBox.Left - bboxXCoordinate) < bboxDiff)
+                    {
+                        nearestBoundingBox = DrawnMap[rowIndex, i].BoundingBox;
+                        bboxDiff = Math.Abs(DrawnMap[rowIndex, i].BoundingBox.Left - bboxXCoordinate);
+                    }
+                }
+                return nearestBoundingBox;
+            }
+            else
+            {
+                int rowIndex = (int)bboxMiddleY / (int)TileHeight;
+                int startIndex = MapGrid[0].Length - 1;
+
+                RectangleF nearestBoundingBox = default(RectangleF);
+                float bboxDiff = float.MaxValue;
+                for (int i = startIndex; i >= 0; i--)
+                {
+                    if (Math.Abs(DrawnMap[rowIndex, i].BoundingBox.Right - bboxXCoordinate) < bboxDiff)
+                    {
+                        nearestBoundingBox = DrawnMap[rowIndex, i].BoundingBox;
+                        bboxDiff = Math.Abs(DrawnMap[rowIndex, i].BoundingBox.Right - bboxXCoordinate);
+                    }
+                }
+                return nearestBoundingBox;
+            }
+        }
+
+        // todo: allow passing in more than a single point, and checking more than a single column simultaneously
+        internal RectangleF GetNearestVerticalCollidedObject(float bboxYCoordinate, float bboxMiddleX, bool goingDown)
+        {
+            if (goingDown)
+            {
+                RectangleF nearestBoundingBox = default(RectangleF);
+                float bboxDiff = float.MaxValue;
+
+                int columnIndex = (int)bboxMiddleX / (int)TileWidth;
+                int endIndex = MapGrid.Count;
+                for(int i = 0; i < endIndex; i++)
+                {
+                    if (Math.Abs(DrawnMap[i, columnIndex].BoundingBox.Top - bboxYCoordinate) < bboxDiff)
+                    {
+                        nearestBoundingBox = DrawnMap[i, columnIndex].BoundingBox;
+                        bboxDiff = Math.Abs(DrawnMap[i, columnIndex].BoundingBox.Top - bboxYCoordinate);
+                    }                    
+                }
+                return nearestBoundingBox;
+            }
+            else
+            {
+                RectangleF nearestBoundingBox = default(RectangleF);
+                float bboxDiff = float.MaxValue;
+
+                int columnIndex = (int)bboxYCoordinate / (int)TileWidth;
+                int startIndex = MapGrid.Count - 1;
+                for (int i = startIndex; i >= 0; i--)
+                {
+                    if (Math.Abs(DrawnMap[i, columnIndex].BoundingBox.Bottom - bboxYCoordinate) < bboxDiff)
+                    {
+                        nearestBoundingBox = DrawnMap[i, columnIndex].BoundingBox;
+                        bboxDiff = Math.Abs(DrawnMap[i, columnIndex].BoundingBox.Bottom - bboxYCoordinate);
+                    }
+                }
+                return nearestBoundingBox;
+            }
+        }
+
         public void Load()
         {
             _testMapSheet = _spriteLoader.Load(TilesetName);
@@ -66,26 +144,21 @@ namespace monogame_test.Maps
 
         public void Update(GameTime gameTime)
         {            
-            DrawnMap = new MapTile[MapGrid.Count * MapGrid[0].Length];
-            int rowNum = 0;
-            foreach (var row in MapGrid)
-            {
-                int colNum = 0;
-                foreach (var cell in row)
+            DrawnMap = new MapTile[MapGrid.Count, MapGrid[0].Length];
+            
+            for(int rowNum = 0; rowNum < MapGrid.Count; rowNum++)            
+            {                
+                for (int colNum = 0; colNum < MapGrid[0].Length; colNum++)
                 {                    
-                    Vector2 coords = ModelToWorld(rowNum, colNum);
-                    int index = MapGrid[0].Length * rowNum + colNum;
-                    DrawnMap[index] = new MapTile
+                    Vector2 coords = ModelToWorld(rowNum, colNum);                    
+                    DrawnMap[rowNum, colNum] = new MapTile
                     {
                         BoundingBoxOrigin = _testMapSheet.Sprite(CharToTile[MapGrid[rowNum][colNum]]).Origin,
                         BoundingBox = new RectangleF(coords.X, coords.Y, TileWidth, TileHeight),
                         Position = new Vector2(coords.X, coords.Y),
                         ModelChar = MapGrid[rowNum][colNum]
-                    };
-
-                    colNum++;
+                    };                    
                 }                
-                rowNum++;
             }
         }
 
@@ -107,28 +180,12 @@ namespace monogame_test.Maps
             {
                 if (tile.ModelChar == '_' || tile.ModelChar == '#')
                 {
-                    BoundingBoxHelper.DrawRectangle(tile.BoundingBox, Game.BBoxOutline, Color.White, _spriteBatch, false, 1);
+                    //BoundingBoxHelper.DrawRectangle(tile.BoundingBox, Game.BBoxOutline, Color.White, _spriteBatch, false, 1);
                 }
             }
-        }
+        }       
 
-        internal Vector2 GetNearestEdge(Vector2 proposedNewPosition)
-        {
-            // cheapass algorithm for now: just keep going left until we find an open space big enough
-            Point index = WorldToModelIndex(proposedNewPosition);
-            int row = index.Y;
-            int col = index.X;
-            char cell = ' ';
-            do
-            {                
-                cell = MapGrid[row][col];
-                col--;
-            } while (cell != '#' && cell != '_');
-
-            return ModelToWorld(row, col);
-        }
-
-        internal RectangleF GetIntersection(RectangleF proposedNewPosition)
+        internal bool IsColliding(RectangleF proposedNewPosition)
         {
             foreach (MapTile tile in DrawnMap)
             {
@@ -137,11 +194,28 @@ namespace monogame_test.Maps
                     RectangleF intersection = RectangleF.Intersect(proposedNewPosition, tile.BoundingBox);
                     if (intersection != RectangleF.Empty)
                     {
-                        return intersection;
+                        return true;
                     }
                 }
             }
-            return RectangleF.Empty;
+            return false;
+        }
+        
+        // TODO: Fix this to actually check the entire bottom chunk of the bounding box, and not just the center.
+        internal bool IsStandingOnGround(RectangleF boundingBox)
+        {
+            foreach (MapTile tile in DrawnMap)
+            {
+                if (tile.ModelChar == '_' || tile.ModelChar == '#')
+                {
+                    if ((boundingBox.Center.X >= tile.BoundingBox.Left && boundingBox.Center.X <= tile.BoundingBox.Right)
+                        && Math.Abs(boundingBox.Bottom - tile.BoundingBox.Top) <= 2 )
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private Vector2 ModelToWorld(int rowNum, int colNum)

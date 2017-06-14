@@ -42,6 +42,7 @@ namespace monogame_test.Entities
                 terraInput,
                 _mapManager);
             terra.Scale = 4f;
+            terra.Position = new Microsoft.Xna.Framework.Vector2(75, 75);
             EntityRegistry.Add(terra);
 
             return terra;

@@ -4,21 +4,22 @@
  * Contains references to each image within the sprite sheet.
  *
  * http://www.codeandweb.com/texturepacker
- * $TexturePacker:SmartUpdate:9599556562ce8a3cef21db0ab0bb40d1:246b1fb3a70e82f8a3ca6c4a90f809c9:8658243ef10bf71dfc6586cfcb380105$
+ * $TexturePacker:SmartUpdate:c850b5a6d529b65e097d861b0c7749f0:c2c120529d77b0b45fcfad425984e8fe:ae8e2302e56d258f62c06a401261bfd3$
  *
  */
 namespace TexturePackerMonoGameDefinitions
 {
 	public class TestTerraAtlas
 	{
-		public const string Sprite_01 = "01";
-		public const string Sprite_02 = "02";
-		public const string Sprite_03 = "03";
-		public const string Sprite_04 = "04";
-		public const string Sprite_05 = "05";
-		public const string Sprite_06 = "06";
-		public const string Sprite_07 = "07";
-		public const string Sprite_08 = "08";
-		public const string Sprite_09 = "09";
+		public const string TerraArmRaise = "terra_arm_raise";
+		public const string TerraStandDown = "terra_stand_down";
+		public const string TerraStandLeft = "terra_stand_left";
+		public const string TerraStandUp = "terra_stand_up";
+		public const string TerraWalkUp01 = "terra_up_walk_01";
+		public const string TerraWalkDown01 = "terra_walk_down_01";
+		public const string TerraWalkDown02 = "terra_walk_down_02";
+		public const string TerraWalkLeft01 = "terra_walk_left_01";
+		public const string TerraWalkLeft02 = "terra_walk_left_02";
+		public const string TerraWalkUp02 = "terra_walk_up_02";
 	}
 }
