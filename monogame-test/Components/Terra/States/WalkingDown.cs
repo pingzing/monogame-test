@@ -7,7 +7,7 @@ namespace monogame_test.Components.Terra.States
 {
     public class WalkingDown : IEntityState
     {
-        public void EnterState(Entity entity)
+        public void EnterState(Entity entity, IEntityState oldState)
         {
             entity.Velocity = new Vector2(0, TerraInputComponent.DefaultVelocity);
         }

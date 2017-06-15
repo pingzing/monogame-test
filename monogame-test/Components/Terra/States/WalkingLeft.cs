@@ -6,7 +6,7 @@ namespace monogame_test.Components.Terra.States
 {
     public class WalkingLeft : IEntityState
     {
-        public void EnterState(Entity entity)
+        public void EnterState(Entity entity, IEntityState oldState)
         {
             entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity, entity.Velocity.Y);
         }
@@ -36,6 +36,15 @@ namespace monogame_test.Components.Terra.States
             else
             {
                 entity.State = TerraStates.StandingLeft;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+            {
+                entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity * 1.5f, entity.Velocity.Y);
+            }
+            else
+            {
+                entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity, entity.Velocity.Y);
             }
         }
     }

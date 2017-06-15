@@ -13,92 +13,77 @@ namespace monogame_test.Components.Terra
     class TerraPhysicsComponent : IPhysicsComponent
     {
         private Point DefaultBoundingBoxSize = new Point(12, 10);
-        private bool IsAirborne = true;
-        private float Gravity = 9.8f;
+        private float Gravity = 9.8f;        
 
         public TerraPhysicsComponent()
-        {            
+        {
 
         }
 
         public void Update(GameTime deltaTime, Entity entity, TestMap map)
-        {       
+        {
             //Initialize bounding box
             if (entity.BoundingBox == RectangleF.Empty)
             {
                 entity.BoundingBox = new RectangleF(
-                    entity.Position.X, 
-                    entity.Position.Y, 
-                    (DefaultBoundingBoxSize.X * entity.Scale), 
+                    entity.Position.X,
+                    entity.Position.Y,
+                    (DefaultBoundingBoxSize.X * entity.Scale),
                     (DefaultBoundingBoxSize.Y * entity.Scale));
             }
-            
-            var delta = (float)deltaTime.ElapsedGameTime.TotalSeconds;
 
-            Vector2 oldPos = new Vector2(entity.Position.X, entity.Position.Y);
-            RectangleF oldBbox = new RectangleF(entity.BoundingBox);
+            var delta = (float)deltaTime.ElapsedGameTime.TotalSeconds;            
 
-            IsAirborne = !map.IsStandingOnGround(entity.BoundingBox);
-            if (IsAirborne)
+            // Apply gravity if airborne
+            if (!map.IsStandingOnGround(entity.BoundingBox))
             {
                 entity.Velocity = new Vector2(entity.Velocity.X, entity.Velocity.Y + Gravity);
             }
 
-            Vector2 proposedNewPosition = new Vector2(entity.Velocity.X * delta + entity.Position.X, entity.Velocity.Y * delta + entity.Position.Y);
+            // Step X position
+            Vector2 proposedNewPosition = new Vector2(entity.Velocity.X * delta + entity.Position.X, entity.Position.Y);
             RectangleF proposedNewBoundingBox = new RectangleF(
                 proposedNewPosition.X,
                 proposedNewPosition.Y,
                 (DefaultBoundingBoxSize.X * entity.Scale),
                 (DefaultBoundingBoxSize.Y * entity.Scale));
 
-            for (int i = 0; i < 3; i++)
+            // Check X-axis collision
+            RectangleF correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
+            bool horizontalCollidedWith = map.IsColliding(correctedBoundingBox);
+            if (horizontalCollidedWith)
             {
-                // Next, check Y-axis collision
-                RectangleF correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
-                bool verticalCollidedWith = map.IsColliding(correctedBoundingBox);
-                if (verticalCollidedWith)
-                {
-                    float yCorrection = GetYCorrection(proposedNewPosition, correctedBoundingBox, map, entity);
-
-                    proposedNewPosition = new Vector2(proposedNewPosition.X, proposedNewPosition.Y + yCorrection);
-                    proposedNewBoundingBox = new RectangleF
-                        (proposedNewPosition.X,
-                        proposedNewPosition.Y,
-                        (DefaultBoundingBoxSize.X * entity.Scale),
-                        (DefaultBoundingBoxSize.Y * entity.Scale));
-
-                    entity.Velocity = new Vector2(entity.Velocity.X, 0);
-                }
-
-                // Check X-axis collision
-                correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
-                bool horizontalCollidedWith = map.IsColliding(correctedBoundingBox);
-                if (horizontalCollidedWith)
-                {
-                    float xCorrection = GetXCorrection(proposedNewPosition, correctedBoundingBox, map, entity);                    
-
-                    proposedNewPosition = new Vector2(proposedNewPosition.X + xCorrection, proposedNewPosition.Y);
-                    proposedNewBoundingBox = new RectangleF
-                        (proposedNewPosition.X,
-                        proposedNewPosition.Y,
-                        (DefaultBoundingBoxSize.X * entity.Scale),
-                        (DefaultBoundingBoxSize.Y * entity.Scale));
-
-                    entity.Velocity = new Vector2(0, entity.Velocity.Y);
-                }
-                
-                if (!horizontalCollidedWith && !verticalCollidedWith)
-                {
-                    break;
-                }
+                float xCorrection = GetXCorrection(proposedNewPosition, correctedBoundingBox, map, entity);
+                proposedNewPosition = new Vector2(proposedNewPosition.X + xCorrection, proposedNewPosition.Y);
+                entity.Velocity = new Vector2(0, entity.Velocity.Y);
             }
-                           
+
+            // Step Y position
+            proposedNewPosition = new Vector2(proposedNewPosition.X, entity.Velocity.Y * delta + entity.Position.Y);
+            proposedNewBoundingBox = proposedNewBoundingBox = new RectangleF(
+                proposedNewPosition.X,
+                proposedNewPosition.Y,
+                (DefaultBoundingBoxSize.X * entity.Scale),
+                (DefaultBoundingBoxSize.Y * entity.Scale));
+
+            // Check Y-axis collision
+            correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
+            bool verticalCollidedWith = map.IsColliding(correctedBoundingBox);
+            if (verticalCollidedWith)
+            {
+                float yCorrection = GetYCorrection(proposedNewPosition, correctedBoundingBox, map, entity);
+                proposedNewPosition = new Vector2(proposedNewPosition.X, proposedNewPosition.Y + yCorrection);
+                entity.Velocity = new Vector2(entity.Velocity.X, 0);
+            }
+
+            // Final assignment of bounding box
+            proposedNewBoundingBox = new RectangleF(proposedNewPosition.X,
+                proposedNewPosition.Y,
+                (DefaultBoundingBoxSize.X * entity.Scale),
+                (DefaultBoundingBoxSize.Y * entity.Scale));
+
             entity.Position = proposedNewPosition;
-            entity.BoundingBox = proposedNewBoundingBox;
-            if (oldBbox != entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox) || oldPos != proposedNewPosition)
-            {
-                System.Diagnostics.Debug.WriteLine($"POS: X: {entity.Position.X}\t Y: {entity.Position.Y}\t BBOX: X: {entity.BoundingBox.X} Y: {entity.BoundingBox.Y} ");
-            }
+            entity.BoundingBox = proposedNewBoundingBox;            
         }
 
         private float GetXCorrection(Vector2 proposedNewPosition, RectangleF correctedBoundingBox, TestMap map, Entity entity)
@@ -136,7 +121,7 @@ namespace monogame_test.Components.Terra
                 float bboxYCoordinate = correctedBoundingBox.Bottom;
                 float bboxMiddleX = correctedBoundingBox.Center.X;
                 RectangleF obstacleBox = map.GetNearestVerticalCollidedObject(bboxYCoordinate, bboxMiddleX, true);
-                yCorrection = (Math.Abs(bboxYCoordinate - obstacleBox.Top) + 1) * -1;
+                yCorrection = (Math.Abs(bboxYCoordinate - obstacleBox.Top) + 1 ) * -1;
             }
             // Going up
             else if (proposedNewPosition.Y < entity.Position.Y)

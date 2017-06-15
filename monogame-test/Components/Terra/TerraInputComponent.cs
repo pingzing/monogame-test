@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using monogame_test.Components.Terra.States;
+using System;
 
 namespace monogame_test.Components.Terra
 {
@@ -28,13 +29,8 @@ namespace monogame_test.Components.Terra
             entity.State.Update(entity, keyboardState);
             if (entity.State != null && entity.State != oldState)
             {
-                entity.State.EnterState(entity);
+                entity.State.EnterState(entity, oldState);
             }            
-
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-            {
-                entity.Velocity *= 1.5f;                
-            }
         }
     }
 }

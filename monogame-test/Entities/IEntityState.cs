@@ -6,6 +6,6 @@ namespace monogame_test.Entities
     public interface IEntityState
     {        
         void Update(Entity entity, KeyboardState keyboard);
-        void EnterState(Entity entity);
+        void EnterState(Entity entity, IEntityState oldState);
     }
 }

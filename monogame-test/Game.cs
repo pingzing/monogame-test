@@ -23,6 +23,8 @@ namespace monogame_test
         public Game()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 944;
+            _graphics.PreferredBackBufferHeight = 464;
             Content.RootDirectory = "Content";
         }
 

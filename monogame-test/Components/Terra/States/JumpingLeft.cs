@@ -6,9 +6,12 @@ namespace monogame_test.Components.Terra.States
 {
     public class JumpingLeft : IEntityState
     {
-        public void EnterState(Entity entity)
+        public void EnterState(Entity entity, IEntityState oldState)
         {
-            entity.Velocity = new Vector2(entity.Velocity.X, entity.Velocity.Y - 200);
+            if (!(oldState is JumpingRight))
+            {
+                entity.Velocity = new Vector2(entity.Velocity.X, -350);
+            }
         }
 
         public void Update(Entity entity, KeyboardState keyboard)
