@@ -8,6 +8,7 @@ using TexturePackerMonoGameDefinitions;
 using Microsoft.Xna.Framework.Input;
 using monogame_test.Core.RenderHelpers;
 using monogame_test.Core.Components.Terra.States;
+using monogame_test.Core.Content;
 
 namespace monogame_test.Core.Components.Terra
 {
@@ -183,7 +184,7 @@ namespace monogame_test.Core.Components.Terra
                 scale: entity.Scale,
                 spriteEffects: currentFrame.SpriteEffect);
 
-            //BoundingBoxHelper.DrawRectangle(entity.BoundingBox, Game.BBoxOutline, Color.White, _spriteBatch, false, 1);
+            BoundingBoxHelper.DrawRectangle(entity.BoundingBox, GlobalAssets.BBoxOutline, Color.White, _spriteBatch, false, 1);
         }
     }
 }

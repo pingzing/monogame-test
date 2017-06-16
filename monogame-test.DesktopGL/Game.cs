@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using monogame_test.Core.Content;
 using monogame_test.Core.Entities;
 using monogame_test.Core.Maps;
 using TexturePackerLoader;
@@ -16,9 +17,7 @@ namespace monogame_test.DesktopGL
         private SpriteBatch _spriteBatch;
         private SpriteSheetLoader _spriteSheetLoader;
         private EntityFactory _factory;
-        private MapManager _mapManager;
-
-        public static Texture2D BBoxOutline;
+        private MapManager _mapManager;        
 
         public Game()
         {
@@ -47,11 +46,11 @@ namespace monogame_test.DesktopGL
         /// </summary>
         protected override void LoadContent()
         {
+            GlobalAssets.Load(Content);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _spriteSheetLoader = new SpriteSheetLoader(this.Content);
-
-            BBoxOutline = Content.Load<Texture2D>("bbox_outline");
+            _spriteSheetLoader = new SpriteSheetLoader(this.Content);            
 
             _mapManager = new MapManager(_spriteSheetLoader, _spriteBatch);
             _mapManager.Load();

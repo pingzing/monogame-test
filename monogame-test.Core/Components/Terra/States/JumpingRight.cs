@@ -32,6 +32,10 @@ namespace monogame_test.Core.Components.Terra.States
                     entity.State = TerraStates.StandingRight;
                 }
             }
+            if (keyboard.IsKeyDown(Keys.D))
+            {
+                entity.Velocity = new Vector2(TerraInputComponent.DefaultVelocity, entity.Velocity.Y);
+            }
             if (keyboard.IsKeyDown(Keys.A))
             {
                 entity.State = TerraStates.JumpingLeft;

@@ -53,11 +53,13 @@
     <Compile Include="Components\Terra\TerraInputComponent.cs" />
     <Compile Include="Components\Terra\TerraPhysicsComponent.cs" />
     <Compile Include="Content\CafeTileset.cs" />
+    <Compile Include="Content\GlobalAssets.cs" />
     <Compile Include="Content\GlobalTileset.cs" />
     <Compile Include="Content\TestTerraAtlas.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\IEntityState.cs" />
+    <Compile Include="Maps\MapBase.cs" />
     <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Maps\MapTile.cs" />
     <Compile Include="Maps\TestMap.cs" />

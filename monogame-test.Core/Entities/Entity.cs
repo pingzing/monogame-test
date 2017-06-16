@@ -19,15 +19,15 @@ namespace monogame_test.Core.Entities
         public Vector2 Position { get; set; }
         public float Scale { get; set; } = 1.0f;        
 
-        private RectangleF _boundingBox;
-        public RectangleF BoundingBox
+        private Rectangle _boundingBox;
+        public Rectangle BoundingBox
         {
             get { return _boundingBox; }
             set
             {
-                _boundingBox = new RectangleF(
-                    value.X - BoundingBoxOrigin.X, 
-                    value.Y - BoundingBoxOrigin.Y, 
+                _boundingBox = new Rectangle(
+                    (int)(value.X - BoundingBoxOrigin.X), 
+                    (int)(value.Y - BoundingBoxOrigin.Y), 
                     value.Width, 
                     value.Height);                
             }
@@ -64,9 +64,13 @@ namespace monogame_test.Core.Entities
             GraphicsComponent.Draw(deltaTime, this);
         }        
 
-        public RectangleF GetOriginCorrectedBoundingBox(RectangleF bbox)
+        public Rectangle GetOriginCorrectedBoundingBox(Rectangle bbox)
         {
-            return new RectangleF(bbox.X - BoundingBoxOrigin.X, bbox.Y - BoundingBoxOrigin.Y, bbox.Width, bbox.Height);
+            return new Rectangle(
+                (int)(bbox.X - BoundingBoxOrigin.X), 
+                (int)(bbox.Y - BoundingBoxOrigin.Y), 
+                bbox.Width, 
+                bbox.Height);
         }
     }
 }

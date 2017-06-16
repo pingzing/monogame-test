@@ -25,11 +25,11 @@ namespace monogame_test.Core.Components.Terra
             //Initialize bounding box
             if (entity.BoundingBox == RectangleF.Empty)
             {
-                entity.BoundingBox = new RectangleF(
-                    entity.Position.X,
-                    entity.Position.Y,
-                    (DefaultBoundingBoxSize.X * entity.Scale),
-                    (DefaultBoundingBoxSize.Y * entity.Scale));
+                entity.BoundingBox = new Rectangle(
+                    (int)entity.Position.X,
+                    (int)entity.Position.Y,
+                    (int)(DefaultBoundingBoxSize.X * entity.Scale),
+                    (int)(DefaultBoundingBoxSize.Y * entity.Scale));
             }
 
             var delta = (float)deltaTime.ElapsedGameTime.TotalSeconds;            
@@ -42,14 +42,14 @@ namespace monogame_test.Core.Components.Terra
 
             // Step X position
             Vector2 proposedNewPosition = new Vector2(entity.Velocity.X * delta + entity.Position.X, entity.Position.Y);
-            RectangleF proposedNewBoundingBox = new RectangleF(
-                proposedNewPosition.X,
-                proposedNewPosition.Y,
-                (DefaultBoundingBoxSize.X * entity.Scale),
-                (DefaultBoundingBoxSize.Y * entity.Scale));
+            Rectangle proposedNewBoundingBox = new Rectangle(
+                (int)proposedNewPosition.X,
+                (int)proposedNewPosition.Y,
+                (int)(DefaultBoundingBoxSize.X * entity.Scale),
+                (int)(DefaultBoundingBoxSize.Y * entity.Scale));
 
             // Check X-axis collision
-            RectangleF correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
+            Rectangle correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
             bool horizontalCollidedWith = map.IsColliding(correctedBoundingBox);
             if (horizontalCollidedWith)
             {
@@ -60,11 +60,11 @@ namespace monogame_test.Core.Components.Terra
 
             // Step Y position
             proposedNewPosition = new Vector2(proposedNewPosition.X, entity.Velocity.Y * delta + entity.Position.Y);
-            proposedNewBoundingBox = proposedNewBoundingBox = new RectangleF(
-                proposedNewPosition.X,
-                proposedNewPosition.Y,
-                (DefaultBoundingBoxSize.X * entity.Scale),
-                (DefaultBoundingBoxSize.Y * entity.Scale));
+            proposedNewBoundingBox = proposedNewBoundingBox = new Rectangle(
+                (int)proposedNewPosition.X,
+                (int)proposedNewPosition.Y,
+                (int)(DefaultBoundingBoxSize.X * entity.Scale),
+                (int)(DefaultBoundingBoxSize.Y * entity.Scale));
 
             // Check Y-axis collision
             correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
@@ -77,16 +77,17 @@ namespace monogame_test.Core.Components.Terra
             }
 
             // Final assignment of bounding box
-            proposedNewBoundingBox = new RectangleF(proposedNewPosition.X,
-                proposedNewPosition.Y,
-                (DefaultBoundingBoxSize.X * entity.Scale),
-                (DefaultBoundingBoxSize.Y * entity.Scale));
+            proposedNewBoundingBox = new Rectangle(
+                (int)proposedNewPosition.X,
+                (int)proposedNewPosition.Y,
+                (int)(DefaultBoundingBoxSize.X * entity.Scale),
+                (int)(DefaultBoundingBoxSize.Y * entity.Scale));
 
             entity.Position = proposedNewPosition;
             entity.BoundingBox = proposedNewBoundingBox;            
         }
 
-        private float GetXCorrection(Vector2 proposedNewPosition, RectangleF correctedBoundingBox, TestMap map, Entity entity)
+        private float GetXCorrection(Vector2 proposedNewPosition, Rectangle correctedBoundingBox, TestMap map, Entity entity)
         {
             float xCorrection = 0f;
 
@@ -95,7 +96,7 @@ namespace monogame_test.Core.Components.Terra
             {
                 float bboxXCoordinate = correctedBoundingBox.Right;
                 float bboxMiddleY = correctedBoundingBox.Center.Y;
-                RectangleF obstacleBbox = map.GetNearestHorizontalCollidedObject(bboxXCoordinate, bboxMiddleY, true);
+                Rectangle obstacleBbox = map.GetNearestHorizontalCollidedObject(bboxXCoordinate, bboxMiddleY, true);
                 xCorrection = (Math.Abs(bboxXCoordinate - obstacleBbox.Left) + 1) * -1;
 
             }
@@ -104,14 +105,14 @@ namespace monogame_test.Core.Components.Terra
             {
                 float bboxXCoordinate = correctedBoundingBox.Left;
                 float bboxMiddleY = correctedBoundingBox.Center.Y;
-                RectangleF obstacleBbox = map.GetNearestHorizontalCollidedObject(bboxXCoordinate, bboxMiddleY, false);
+                Rectangle obstacleBbox = map.GetNearestHorizontalCollidedObject(bboxXCoordinate, bboxMiddleY, false);
                 xCorrection = Math.Abs(bboxXCoordinate - obstacleBbox.Right) + 1;
             }
 
             return xCorrection;
         }
 
-        private float GetYCorrection(Vector2 proposedNewPosition, RectangleF correctedBoundingBox, TestMap map, Entity entity)
+        private float GetYCorrection(Vector2 proposedNewPosition, Rectangle correctedBoundingBox, TestMap map, Entity entity)
         {
             float yCorrection = 0f;
 
@@ -120,7 +121,7 @@ namespace monogame_test.Core.Components.Terra
             {
                 float bboxYCoordinate = correctedBoundingBox.Bottom;
                 float bboxMiddleX = correctedBoundingBox.Center.X;
-                RectangleF obstacleBox = map.GetNearestVerticalCollidedObject(bboxYCoordinate, bboxMiddleX, true);
+                Rectangle obstacleBox = map.GetNearestVerticalCollidedObject(bboxYCoordinate, bboxMiddleX, true);
                 yCorrection = (Math.Abs(bboxYCoordinate - obstacleBox.Top) + 1 ) * -1;
             }
             // Going up
@@ -128,7 +129,7 @@ namespace monogame_test.Core.Components.Terra
             {
                 float bboxYCoordinate = correctedBoundingBox.Top;
                 float bboxMiddleX = correctedBoundingBox.Center.X;
-                RectangleF obstacleBox = map.GetNearestVerticalCollidedObject(bboxYCoordinate, bboxMiddleX, false);
+                Rectangle obstacleBox = map.GetNearestVerticalCollidedObject(bboxYCoordinate, bboxMiddleX, false);
                 yCorrection = Math.Abs(bboxYCoordinate - obstacleBox.Bottom) + 1;
             }
 
