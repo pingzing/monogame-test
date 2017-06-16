@@ -1,0 +1,18 @@
+#
+# Sprite sheet data for MonoGame.
+#
+# To learn how to import these sprites into your MonoGame project visit:
+# http://www.codeandweb.com/texturepacker/monogame
+#
+# Sprite sheet: CafeTileset.png (244 x 36)
+# $TexturePacker:SmartUpdate:0c64640304e721d77e4e8caa097f536a:5b61bbe154a3687070cf73951a84c9d6:474670d38e62ac76189184b0ba8e9b35$
+#
+
+barrel;0;1;1;30;32;32;32;0.5;0.5
+brick-block;0;33;1;32;32;32;32;0.5;0.5
+brick-grey;0;67;1;32;32;32;32;0.5;0.5
+carpet-left;0;101;1;32;32;32;32;0.5;0.5
+carpet-middle;0;135;1;32;32;32;32;0.5;0.5
+carpet-right;0;169;1;32;32;32;32;0.5;0.5
+chair-face-left;0;203;1;19;28;32;32;0.5263157894736842;0.5714285714285714
+chair-face-right;0;224;1;19;28;33;32;0.4473684210526316;0.5714285714285714
