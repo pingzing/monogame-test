@@ -1,6 +1,7 @@
 ﻿using monogame_test.Core.Entities;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace monogame_test.Core.Components.Terra.States
 {
@@ -8,7 +9,7 @@ namespace monogame_test.Core.Components.Terra.States
     {
         public void EnterState(Entity entity, IEntityState oldState)
         {
-            entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity, entity.Velocity.Y);
+            entity.Velocity = new Vector2(entity.Velocity.X - entity.HorizontalAcceleration, entity.Velocity.Y);
         }
 
         public void Update(Entity entity, KeyboardState keyboard)
@@ -19,7 +20,9 @@ namespace monogame_test.Core.Components.Terra.States
             }
             else if (keyboard.IsKeyDown(Keys.A))
             {
-                entity.State = TerraStates.WalkingLeft;
+                entity.Velocity = new Vector2(
+                    Math.Max(entity.Velocity.X - entity.HorizontalAcceleration, -TerraInputComponent.MaxHorizontalVelocity), 
+                    entity.Velocity.Y);
             }
             else if (keyboard.IsKeyDown(Keys.S))
             {
@@ -33,19 +36,10 @@ namespace monogame_test.Core.Components.Terra.States
             {
                 entity.State = TerraStates.WalkingUp;
             }            
-            else
+            else if (entity.Velocity.X == 0)
             {
                 entity.State = TerraStates.StandingLeft;
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-            {
-                entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity * 1.5f, entity.Velocity.Y);
-            }
-            else
-            {
-                entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity, entity.Velocity.Y);
-            }
+            }            
         }
     }
 }

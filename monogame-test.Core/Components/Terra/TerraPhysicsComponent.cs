@@ -13,7 +13,9 @@ namespace monogame_test.Core.Components.Terra
     class TerraPhysicsComponent : IPhysicsComponent
     {
         private Point DefaultBoundingBoxSize = new Point(12, 10);
-        private float Gravity = 9.8f;        
+        private float Gravity = 9.8f;
+        private float DefaultFriction = 10f;
+            
 
         public TerraPhysicsComponent()
         {
@@ -32,7 +34,26 @@ namespace monogame_test.Core.Components.Terra
                     (int)(DefaultBoundingBoxSize.Y * entity.Scale));
             }
 
-            var delta = (float)deltaTime.ElapsedGameTime.TotalSeconds;            
+            if (entity.HorizontalAcceleration == default(float))
+            {
+                entity.HorizontalAcceleration = 20f;
+            }
+
+            var delta = (float)deltaTime.ElapsedGameTime.TotalSeconds;    
+            
+            // Apply friction
+            if (entity.Velocity.X > 0)
+            {
+                entity.Velocity = new Vector2(
+                    Math.Max((entity.Velocity.X - DefaultFriction), 0), 
+                    entity.Velocity.Y);
+            }        
+            else if (entity.Velocity.X < 0)
+            {
+                entity.Velocity = new Vector2(
+                    Math.Min((entity.Velocity.X + DefaultFriction), 0), 
+                    entity.Velocity.Y);
+            }
 
             // Apply gravity if airborne
             if (!map.IsStandingOnGround(entity.BoundingBox))

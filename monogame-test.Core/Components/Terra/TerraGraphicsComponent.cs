@@ -161,8 +161,8 @@ namespace monogame_test.Core.Components.Terra
             }           
 
             TimeSpan newFrameTime = TimeSpan.FromMilliseconds(
-                TerraInputComponent.DefaultVelocity /
-                Math.Max(1, ((Math.Abs(entity.Velocity.X) + Math.Abs(entity.Velocity.Y)) / TerraInputComponent.DefaultVelocity)));
+                150 /
+                Math.Max(1, ((Math.Abs(entity.Velocity.X)) / 150)));
             _currentAnimation.SetTimeBetweenFrames(newFrameTime);
             _currentAnimation.Update(deltaTime);
 

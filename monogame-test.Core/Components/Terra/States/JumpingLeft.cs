@@ -1,6 +1,7 @@
 ﻿using monogame_test.Core.Entities;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace monogame_test.Core.Components.Terra.States
 {
@@ -33,12 +34,14 @@ namespace monogame_test.Core.Components.Terra.States
             }
             if (keyboard.IsKeyDown(Keys.A))
             {
-                entity.Velocity = new Vector2(-TerraInputComponent.DefaultVelocity, entity.Velocity.Y);
+                entity.Velocity = new Vector2(
+                    Math.Max(entity.Velocity.X - entity.HorizontalAcceleration, -TerraInputComponent.MaxHorizontalVelocity),
+                    entity.Velocity.Y);
             }
             if (keyboard.IsKeyDown(Keys.D))
             {
                 entity.State = TerraStates.JumpingRight;
-            }
+            }            
         }
     }
 }
