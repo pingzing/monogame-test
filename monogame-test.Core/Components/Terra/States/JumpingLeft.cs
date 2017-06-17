@@ -17,7 +17,7 @@ namespace monogame_test.Core.Components.Terra.States
 
         public void Update(Entity entity, KeyboardState keyboard)
         {
-            if (entity.Velocity.Y == 0)
+            if (entity.Velocity.Y == 0 && !entity.IsAirbone)
             {
                 if (entity.Velocity.X < 0)
                 {
@@ -35,7 +35,7 @@ namespace monogame_test.Core.Components.Terra.States
             if (keyboard.IsKeyDown(Keys.A))
             {
                 entity.Velocity = new Vector2(
-                    Math.Max(entity.Velocity.X - entity.HorizontalAcceleration, -TerraInputComponent.MaxHorizontalVelocity),
+                    Math.Max(entity.Velocity.X - entity.HorizontalAcceleration, -entity.MaxHorizontalVelocity),
                     entity.Velocity.Y);
             }
             if (keyboard.IsKeyDown(Keys.D))

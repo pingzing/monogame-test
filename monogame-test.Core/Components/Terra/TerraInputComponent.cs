@@ -7,9 +7,7 @@ using System;
 namespace monogame_test.Core.Components.Terra
 {
     public class TerraInputComponent : IInputComponent
-    {
-        public const float MaxHorizontalVelocity = 300;
-
+    {        
         public TerraInputComponent()
         {
 

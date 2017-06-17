@@ -16,6 +16,7 @@ namespace monogame_test.Core.Entities
         private SpriteSheetLoader _spriteSheetLoader;
         private SpriteBatch _entitySpriteBatch;
         private MapManager _mapManager;
+        public Entity PlayerEntity { get; private set; }
 
         public List<Entity> EntityRegistry { get; private set; }
 
@@ -44,6 +45,7 @@ namespace monogame_test.Core.Entities
             terra.Scale = 4f;
             terra.Position = new Microsoft.Xna.Framework.Vector2(75, 75);
             EntityRegistry.Add(terra);
+            PlayerEntity = terra;
 
             return terra;
         }

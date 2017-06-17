@@ -21,7 +21,7 @@ namespace monogame_test.Core.Components.Terra.States
             else if (keyboard.IsKeyDown(Keys.A))
             {
                 entity.Velocity = new Vector2(
-                    Math.Max(entity.Velocity.X - entity.HorizontalAcceleration, -TerraInputComponent.MaxHorizontalVelocity), 
+                    Math.Max(entity.Velocity.X - entity.HorizontalAcceleration, -entity.MaxHorizontalVelocity), 
                     entity.Velocity.Y);
             }
             else if (keyboard.IsKeyDown(Keys.S))

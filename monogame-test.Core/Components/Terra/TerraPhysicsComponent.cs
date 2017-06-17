@@ -15,6 +15,7 @@ namespace monogame_test.Core.Components.Terra
         private Point DefaultBoundingBoxSize = new Point(12, 10);
         private float Gravity = 9.8f;
         private float DefaultFriction = 10f;
+        private float DefaultMaxHorizontalVelocity = 300f;
             
 
         public TerraPhysicsComponent()
@@ -34,9 +35,15 @@ namespace monogame_test.Core.Components.Terra
                     (int)(DefaultBoundingBoxSize.Y * entity.Scale));
             }
 
+            // Apply velocity/accel defaults
             if (entity.HorizontalAcceleration == default(float))
             {
                 entity.HorizontalAcceleration = 20f;
+            }
+
+            if (entity.MaxHorizontalVelocity == default(float))
+            {
+                entity.MaxHorizontalVelocity = DefaultMaxHorizontalVelocity;
             }
 
             var delta = (float)deltaTime.ElapsedGameTime.TotalSeconds;    
@@ -58,7 +65,12 @@ namespace monogame_test.Core.Components.Terra
             // Apply gravity if airborne
             if (!map.IsStandingOnGround(entity.BoundingBox))
             {
+                entity.IsAirbone = true;
                 entity.Velocity = new Vector2(entity.Velocity.X, entity.Velocity.Y + Gravity);
+            }
+            else
+            {
+                entity.IsAirbone = false;
             }
 
             // Step X position

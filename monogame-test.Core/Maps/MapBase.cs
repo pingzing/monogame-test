@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using monogame_test.Core.Content;
+using monogame_test.Core.DebugHelpers;
 using monogame_test.Core.RenderHelpers;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,10 @@ namespace monogame_test.Core.Maps
         protected SpriteSheetLoader MapSheetLoader;
         protected SpriteSheet MapSpriteSheet;
 
-        protected virtual float TileHeight { get; set; } = 32;
-        protected virtual float TileWidth { get; set; } = 32;
+        public virtual int TileHeight { get; protected set; } = 32;
+        public virtual int TileWidth { get; protected set; } = 32;
+        public abstract int MapHeight { get; }
+        public abstract int MapWidth { get; }
         protected abstract List<char[]> MapGrid { get; set; }
         protected abstract MapTile[,] DrawnMap { get; set; }
         protected abstract Dictionary<char, string> CharToTile { get; set; }
@@ -155,8 +158,12 @@ namespace monogame_test.Core.Maps
             {
                 if (tile.IsCollidable)
                 {
-                    BoundingBoxHelper.DrawRectangle(tile.BoundingBox, GlobalAssets.BBoxOutline, Color.White, MapBatch, false, 1);
-                    if (tile.IsBeingCollided || tile.IsBeingStoodOn)
+                    if (DebugConstants.ShowBoundingBoxes)
+                    {
+                        BoundingBoxHelper.DrawRectangle(tile.BoundingBox, GlobalAssets.BBoxOutline, Color.White, MapBatch, false, 1);
+                    }
+
+                    if ((tile.IsBeingCollided || tile.IsBeingStoodOn) && DebugConstants.ShowCollisionOverlays)
                     {
                         BoundingBoxHelper.DrawRectangle(tile.BoundingBox, GlobalAssets.CollisionOverlay, Color.White, MapBatch, true, 1);
                     }

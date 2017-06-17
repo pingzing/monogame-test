@@ -13,7 +13,7 @@ namespace monogame_test.Core.Components.Terra.States
     {
         public void EnterState(Entity entity, IEntityState oldState)
         {
-            entity.Velocity = new Vector2(0, -TerraInputComponent.MaxHorizontalVelocity);
+            entity.Velocity = new Vector2(0, -entity.MaxHorizontalVelocity);
         }
 
         public void Update(Entity entity, KeyboardState keyboard)

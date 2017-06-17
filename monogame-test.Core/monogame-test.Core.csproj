@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="AnimationSystem\Animation.cs" />
     <Compile Include="AnimationSystem\AnimationFrame.cs" />
+    <Compile Include="CameraSystem\Camera.cs" />
     <Compile Include="Components\IGraphicsComponent.cs" />
     <Compile Include="Components\IInputComponent.cs" />
     <Compile Include="Components\IPhysicsComponent.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Content\GlobalAssets.cs" />
     <Compile Include="Content\GlobalTileset.cs" />
     <Compile Include="Content\TestTerraAtlas.cs" />
+    <Compile Include="DebugHelpers\DebugConstants.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\IEntityState.cs" />

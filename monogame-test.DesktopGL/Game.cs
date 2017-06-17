@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using monogame_test.Core.CameraSystem;
 using monogame_test.Core.Content;
 using monogame_test.Core.Entities;
 using monogame_test.Core.Maps;
@@ -17,6 +18,7 @@ namespace monogame_test.DesktopGL
         private SpriteBatch _spriteBatch;
         private SpriteSheetLoader _spriteSheetLoader;
         private EntityFactory _factory;
+        private Camera _camera;
         private MapManager _mapManager;        
 
         public Game()
@@ -36,6 +38,9 @@ namespace monogame_test.DesktopGL
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _camera = new Camera(1.25f);
+            _camera.ViewportWidth = _graphics.GraphicsDevice.Viewport.Width;
+            _camera.ViewportHeight = _graphics.GraphicsDevice.Viewport.Height;
 
             base.Initialize();
         }
@@ -88,6 +93,7 @@ namespace monogame_test.DesktopGL
             {
                 entity.Update(gameTime);
             }
+            _camera.Update(_factory.PlayerEntity, _mapManager.CurrentMap);
 
             base.Update(gameTime);
         }
@@ -100,7 +106,7 @@ namespace monogame_test.DesktopGL
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp, transformMatrix: _camera.TranslationMatrix);
 
             _mapManager.Draw(gameTime);
 

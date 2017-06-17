@@ -15,7 +15,9 @@ namespace monogame_test.Core.Entities
         protected IPhysicsComponent PhysicsComponent;
 
         public IEntityState State { get; set; }
-        public float HorizontalAcceleration { get; set; }        
+        public float HorizontalAcceleration { get; set; }
+        public float MaxHorizontalVelocity { get; set; }
+        public bool IsAirbone { get; set; }
         public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }
         public float Scale { get; set; } = 1.0f;        

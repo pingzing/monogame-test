@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using monogame_test.Core.RenderHelpers;
 using monogame_test.Core.Components.Terra.States;
 using monogame_test.Core.Content;
+using monogame_test.Core.DebugHelpers;
 
 namespace monogame_test.Core.Components.Terra
 {
@@ -167,7 +168,7 @@ namespace monogame_test.Core.Components.Terra
             _currentAnimation.Update(deltaTime);
 
             Vector2 currentFrameOrigin = _currentAnimation.GetCurrentFrame().SpriteFrame.Origin;
-            if (entity.BoundingBoxOrigin == default(Vector2))
+            if (entity.BoundingBoxOrigin == default(Vector2) )
             {
                 entity.BoundingBoxOrigin = new Vector2(currentFrameOrigin.X, currentFrameOrigin.Y - 12);
             }
@@ -184,7 +185,10 @@ namespace monogame_test.Core.Components.Terra
                 scale: entity.Scale,
                 spriteEffects: currentFrame.SpriteEffect);
 
-            BoundingBoxHelper.DrawRectangle(entity.BoundingBox, GlobalAssets.BBoxOutline, Color.White, _spriteBatch, false, 1);
+            if (DebugConstants.ShowBoundingBoxes)
+            {
+                BoundingBoxHelper.DrawRectangle(entity.BoundingBox, GlobalAssets.BBoxOutline, Color.White, _spriteBatch, false, 1);
+            }
         }
     }
 }
