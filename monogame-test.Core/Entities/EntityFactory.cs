@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using monogame_test.Core.Components.Terra;
+using monogame_test.Core.Components.TestNpc;
 using monogame_test.Core.Maps;
 using System;
 using System.Collections.Generic;
@@ -36,18 +38,26 @@ namespace monogame_test.Core.Entities
         {
             var terraInput = new TerraInputComponent();
             var terraGraphics = new TerraGraphicsComponent(_graphics, _spriteSheetLoader, _entitySpriteBatch, terraInput);
-            var terraPhysics = new TerraPhysicsComponent();
+            var terraPhysics = new TerraPhysicsComponent(_mapManager);
 
-            var terra = new Entity(terraGraphics,
-                terraPhysics,
-                terraInput,
-                _mapManager);
+            var terra = new Entity(terraInput, terraPhysics, terraGraphics);
             terra.Scale = 4f;
-            terra.Position = new Microsoft.Xna.Framework.Vector2(75, 75);
+            terra.Position = new Vector2(75, 75);
             EntityRegistry.Add(terra);
             PlayerEntity = terra;
 
             return terra;
+        }
+
+        public Entity CreateTestNpcEntity()
+        {
+            var testNpcGraphics = new TestNpcGraphicsComponent();
+            var testNpcPhysics = new TestNpcPhysicsComponent();
+
+            var testNpc = new Entity(testNpcPhysics, testNpcGraphics);
+            testNpc.Position = new Vector2(150, 40);
+            EntityRegistry.Add(testNpc);
+            return testNpc;
         }
     }
 }

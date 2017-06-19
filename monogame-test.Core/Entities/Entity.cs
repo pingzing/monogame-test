@@ -1,19 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using monogame_test.Core.Components;
-using monogame_test.Core.Maps;
-using monogame_test.Core.RenderHelpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace monogame_test.Core.Entities
 {
     public class Entity
     {
-        private MapManager _mapManager;
-
-        protected IInputComponent InputComponent;
-        protected IGraphicsComponent GraphicsComponent;
-        protected IPhysicsComponent PhysicsComponent;
-
+        public List<IComponent> Components { get; set; } = new List<IComponent>();
         public IEntityState State { get; set; }
         public float HorizontalAcceleration { get; set; }
         public float MaxHorizontalVelocity { get; set; }
@@ -43,24 +37,30 @@ namespace monogame_test.Core.Entities
             set { _boundingBoxOrigin = value * Scale; }
         }
 
-        public Entity(IGraphicsComponent graphics, IPhysicsComponent physics, IInputComponent input, MapManager mapManager)
+        public Entity()
         {
-            GraphicsComponent = graphics;
-            PhysicsComponent = physics;
-            InputComponent = input;
-            _mapManager = mapManager;
+            
+        }
+
+        public Entity(params IComponent[] components)
+        {
+            Components = new List<IComponent>(components);
         }
         
         public virtual void Update(GameTime deltaTime)
         {
-            InputComponent.Update(deltaTime, this);
-            PhysicsComponent.Update(deltaTime, this, _mapManager.CurrentMap);
-            GraphicsComponent.Update(deltaTime, this);            
+            foreach(var component in Components)
+            {
+                component.Update(deltaTime, this);
+            }
         }
         
         public virtual void Draw(GameTime deltaTime)
         {
-            GraphicsComponent.Draw(deltaTime, this);
+            foreach(var graphicsComponent in Components.OfType<IGraphicsComponent>())
+            {
+                graphicsComponent.Draw(deltaTime, this);
+            }
         }        
 
         public Rectangle GetOriginCorrectedBoundingBox(Rectangle bbox)

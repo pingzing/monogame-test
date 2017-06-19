@@ -36,6 +36,7 @@
     <Compile Include="AnimationSystem\Animation.cs" />
     <Compile Include="AnimationSystem\AnimationFrame.cs" />
     <Compile Include="CameraSystem\Camera.cs" />
+    <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\IGraphicsComponent.cs" />
     <Compile Include="Components\IInputComponent.cs" />
     <Compile Include="Components\IPhysicsComponent.cs" />
@@ -53,6 +54,8 @@
     <Compile Include="Components\Terra\TerraGraphicsComponent.cs" />
     <Compile Include="Components\Terra\TerraInputComponent.cs" />
     <Compile Include="Components\Terra\TerraPhysicsComponent.cs" />
+    <Compile Include="Components\TestNpc\TestNpcGraphicsComponent.cs" />
+    <Compile Include="Components\TestNpc\TestNpcPhysicsComponent.cs" />
     <Compile Include="Content\CafeTileset.cs" />
     <Compile Include="Content\GlobalAssets.cs" />
     <Compile Include="Content\GlobalTileset.cs" />
@@ -86,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\TestNpc\States\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

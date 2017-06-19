@@ -38,7 +38,7 @@ namespace monogame_test.DesktopGL
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _camera = new Camera(1.25f);
+            _camera = new Camera();
             _camera.ViewportWidth = _graphics.GraphicsDevice.Viewport.Width;
             _camera.ViewportHeight = _graphics.GraphicsDevice.Viewport.Height;
 

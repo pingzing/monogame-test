@@ -12,18 +12,19 @@ namespace monogame_test.Core.Components.Terra
 {
     class TerraPhysicsComponent : IPhysicsComponent
     {
+        private MapManager _mapManager;
         private Point DefaultBoundingBoxSize = new Point(12, 10);
         private float Gravity = 9.8f;
         private float DefaultFriction = 10f;
         private float DefaultMaxHorizontalVelocity = 300f;
             
 
-        public TerraPhysicsComponent()
+        public TerraPhysicsComponent(MapManager mapManager)
         {
-
+            _mapManager = mapManager;
         }
 
-        public void Update(GameTime deltaTime, Entity entity, TestMap map)
+        public void Update(GameTime deltaTime, Entity entity)
         {
             //Initialize bounding box
             if (entity.BoundingBox == RectangleF.Empty)
@@ -63,7 +64,7 @@ namespace monogame_test.Core.Components.Terra
             }
 
             // Apply gravity if airborne
-            if (!map.IsStandingOnGround(entity.BoundingBox))
+            if (!_mapManager.CurrentMap.IsStandingOnGround(entity.BoundingBox))
             {
                 entity.IsAirbone = true;
                 entity.Velocity = new Vector2(entity.Velocity.X, entity.Velocity.Y + Gravity);
@@ -83,10 +84,10 @@ namespace monogame_test.Core.Components.Terra
 
             // Check X-axis collision
             Rectangle correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
-            bool horizontalCollidedWith = map.IsColliding(correctedBoundingBox);
+            bool horizontalCollidedWith = _mapManager.CurrentMap.IsColliding(correctedBoundingBox);
             if (horizontalCollidedWith)
             {
-                float xCorrection = GetXCorrection(proposedNewPosition, correctedBoundingBox, map, entity);
+                float xCorrection = GetXCorrection(proposedNewPosition, correctedBoundingBox, _mapManager.CurrentMap, entity);
                 proposedNewPosition = new Vector2(proposedNewPosition.X + xCorrection, proposedNewPosition.Y);
                 entity.Velocity = new Vector2(0, entity.Velocity.Y);
             }
@@ -101,10 +102,10 @@ namespace monogame_test.Core.Components.Terra
 
             // Check Y-axis collision
             correctedBoundingBox = entity.GetOriginCorrectedBoundingBox(proposedNewBoundingBox);
-            bool verticalCollidedWith = map.IsColliding(correctedBoundingBox);
+            bool verticalCollidedWith = _mapManager.CurrentMap.IsColliding(correctedBoundingBox);
             if (verticalCollidedWith)
             {
-                float yCorrection = GetYCorrection(proposedNewPosition, correctedBoundingBox, map, entity);
+                float yCorrection = GetYCorrection(proposedNewPosition, correctedBoundingBox, _mapManager.CurrentMap, entity);
                 proposedNewPosition = new Vector2(proposedNewPosition.X, proposedNewPosition.Y + yCorrection);
                 entity.Velocity = new Vector2(entity.Velocity.X, 0);
             }
