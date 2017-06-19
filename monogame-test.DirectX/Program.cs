@@ -1,8 +1,9 @@
 ﻿using monogame_test.Core;
 using System;
 
-namespace monogame_test.DesktopGL
+namespace monogame_test.DirectX
 {
+#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -18,4 +19,5 @@ namespace monogame_test.DesktopGL
                 game.Run();
         }
     }
+#endif
 }

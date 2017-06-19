@@ -26,14 +26,14 @@
             {
                 string imageResource = string.Format(imageResourceFormat, i);
 
-                SpriteSheet tmp = Load(imageResource);
+                SpriteSheet tmp = LoadAsync(imageResource);
                 result.Add(tmp);
             }
             return result;
         }
 
 
-        public SpriteSheet Load(string imageResource)
+        public SpriteSheet LoadAsync(string imageResource)
         {
             var texture = this.contentManager.Load<Texture2D>(imageResource);
 
@@ -41,7 +41,7 @@
                 this.contentManager.RootDirectory,
                 Path.ChangeExtension(imageResource, "txt"));
 
-            var dataFileLines = this.ReadDataFile(dataFile);
+            var dataFileLines = this.ReadDataFileAsync(dataFile);
 
             var sheet = new SpriteSheet();
 
@@ -76,11 +76,11 @@
 
             return sheet;
         }
-
-        // TODO: Warning, warning, deadlock danger
-        private string[] ReadDataFile(string dataFile) 
+        
+        private string[] ReadDataFileAsync(string dataFile) 
         {
-            return ReadDataFileLinesAsync(dataFile).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            return Task.Run(() => ReadDataFileLinesAsync(dataFile)).Result;            
         }
 
         private async Task<string[]> ReadDataFileLinesAsync(string dataFile)

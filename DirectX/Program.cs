@@ -1,8 +1,8 @@
-﻿using monogame_test.Core;
-using System;
+﻿using System;
 
-namespace monogame_test.DesktopGL
+namespace DirectX
 {
+#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -14,8 +14,9 @@ namespace monogame_test.DesktopGL
         [STAThread]
         static void Main()
         {
-            using (var game = new Game())
+            using (var game = new Game1())
                 game.Run();
         }
     }
+#endif
 }

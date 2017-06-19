@@ -114,10 +114,16 @@ namespace monogame_test.Core.Maps
 
         public virtual void Load()
         {
-            MapSpriteSheet = MapSheetLoader.Load(TilesetName);
+            MapSpriteSheet = MapSheetLoader.LoadAsync(TilesetName);
 
             DrawnMap = new MapTile[MapGrid.Count, MapGrid[0].Length];
 
+            // These offsets account for the fact that tiles are drawn based
+            // on their center, so a 32x32 tile drawn at (0, 0) will have its
+            // Center at (0, 0), and its Top Left at (-16, -16) without these
+            // adjustments.
+            int tileXOffset = TileWidth / 2;
+            int tileYOffset = TileWidth / 2;
             for (int rowNum = 0; rowNum < MapGrid.Count; rowNum++)
             {
                 for (int colNum = 0; colNum < MapGrid[0].Length; colNum++)
@@ -126,8 +132,8 @@ namespace monogame_test.Core.Maps
                     DrawnMap[rowNum, colNum] = new MapTile
                     {
                         BoundingBoxOrigin = MapSpriteSheet.Sprite(CharToTile[MapGrid[rowNum][colNum]]).Origin,
-                        BoundingBox = new RectangleF(coords.X, coords.Y, TileWidth, TileHeight),
-                        Position = new Vector2(coords.X, coords.Y),
+                        BoundingBox = new Rectangle((int)coords.X + tileXOffset, (int)coords.Y + tileYOffset, TileWidth, TileHeight),
+                        Position = new Vector2(coords.X + tileXOffset, coords.Y + tileYOffset),
                         ModelChar = MapGrid[rowNum][colNum],
                         IsCollidable = CollisionTiles.Contains(MapGrid[rowNum][colNum])
                     };

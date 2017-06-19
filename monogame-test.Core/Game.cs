@@ -7,7 +7,7 @@ using monogame_test.Core.Entities;
 using monogame_test.Core.Maps;
 using TexturePackerLoader;
 
-namespace monogame_test.DesktopGL
+namespace monogame_test.Core
 {
     /// <summary>
     /// This is the main type for your game.
@@ -42,6 +42,8 @@ namespace monogame_test.DesktopGL
             _camera.ViewportWidth = _graphics.GraphicsDevice.Viewport.Width;
             _camera.ViewportHeight = _graphics.GraphicsDevice.Viewport.Height;
 
+            DebugHelpers.DebugConstants.ShowBoundingBoxes = true;
+
             base.Initialize();
         }
 
@@ -52,8 +54,7 @@ namespace monogame_test.DesktopGL
         protected override void LoadContent()
         {
             GlobalAssets.Load(Content);
-
-            // Create a new SpriteBatch, which can be used to draw textures.
+            
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _spriteSheetLoader = new SpriteSheetLoader(this.Content);            
 
@@ -106,7 +107,9 @@ namespace monogame_test.DesktopGL
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp, transformMatrix: _camera.TranslationMatrix);
+            _spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, 
+                samplerState: SamplerState.PointClamp, 
+                transformMatrix: _camera.TranslationMatrix);
 
             _mapManager.Draw(gameTime);
 

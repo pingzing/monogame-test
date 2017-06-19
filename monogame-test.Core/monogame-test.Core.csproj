@@ -64,6 +64,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\IEntityState.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Maps\MapBase.cs" />
     <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Maps\MapTile.cs" />

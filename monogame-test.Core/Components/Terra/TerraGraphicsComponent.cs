@@ -43,7 +43,7 @@ namespace monogame_test.Core.Components.Terra
             _spriteBatch = spriteBatch;
             _spriteRender = new SpriteRender(_spriteBatch);
             _spriteSheetLoader = spriteSheetLoader;
-            _terraSheet = spriteSheetLoader.Load("TestTerraAtlas");            
+            _terraSheet = spriteSheetLoader.LoadAsync("TestTerraAtlas");            
 
             _standLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
