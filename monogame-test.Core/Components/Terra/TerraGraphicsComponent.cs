@@ -5,11 +5,11 @@ using TexturePackerLoader;
 using monogame_test.Core.AnimationSystem;
 using Microsoft.Xna.Framework;
 using TexturePackerMonoGameDefinitions;
-using Microsoft.Xna.Framework.Input;
 using monogame_test.Core.RenderHelpers;
 using monogame_test.Core.Components.Terra.States;
 using monogame_test.Core.Content;
 using monogame_test.Core.DebugHelpers;
+using System.Threading.Tasks;
 
 namespace monogame_test.Core.Components.Terra
 {
@@ -36,14 +36,18 @@ namespace monogame_test.Core.Components.Terra
 
         private Animation _currentAnimation;           
 
-        public TerraGraphicsComponent(GraphicsDevice graphicsDevice, SpriteSheetLoader spriteSheetLoader,
-            SpriteBatch spriteBatch, TerraInputComponent terraInput)
+        public TerraGraphicsComponent(SpriteSheetLoader spriteSheetLoader, SpriteBatch spriteBatch, 
+            TerraInputComponent terraInput)
         {
             _terraInput = terraInput;
             _spriteBatch = spriteBatch;
             _spriteRender = new SpriteRender(_spriteBatch);
-            _spriteSheetLoader = spriteSheetLoader;
-            _terraSheet = spriteSheetLoader.LoadAsync("TestTerraAtlas");            
+            _spriteSheetLoader = spriteSheetLoader;            
+        }    
+        
+        public async Task Load()
+        {
+            _terraSheet = await _spriteSheetLoader.LoadAsync("TestTerraAtlas");
 
             _standLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
@@ -67,19 +71,19 @@ namespace monogame_test.Core.Components.Terra
                 TimeSpan.FromMilliseconds(300),
                 _terraSheet,
                 SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandDown });         
+                new string[] { TestTerraAtlas.TerraStandDown });
 
-            _walkLeftAnimation = new Animation(                
+            _walkLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
-                _terraSheet,                
+                _terraSheet,
                 SpriteEffects.None,
                 new string[] { TestTerraAtlas.TerraStandLeft,
                      TestTerraAtlas.TerraWalkLeft02,
                      TestTerraAtlas.TerraStandLeft,
                      TestTerraAtlas.TerraWalkLeft01 });
 
-            _walkRightAnimation = new Animation(                
-                TimeSpan.FromMilliseconds(200), 
+            _walkRightAnimation = new Animation(
+                TimeSpan.FromMilliseconds(200),
                 _terraSheet,
                 SpriteEffects.FlipHorizontally,
                 new string[] {  TestTerraAtlas.TerraStandLeft,
@@ -87,7 +91,7 @@ namespace monogame_test.Core.Components.Terra
                      TestTerraAtlas.TerraStandLeft,
                      TestTerraAtlas.TerraWalkLeft01 });
 
-            _walkUpAnimation = new Animation(                
+            _walkUpAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
                 _terraSheet,
                 SpriteEffects.None,
@@ -96,7 +100,7 @@ namespace monogame_test.Core.Components.Terra
                 TestTerraAtlas.TerraStandUp,
                 TestTerraAtlas.TerraWalkUp02});
 
-            _walkDownAnimation = new Animation(                
+            _walkDownAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
                 _terraSheet,
                 SpriteEffects.None,
@@ -116,7 +120,7 @@ namespace monogame_test.Core.Components.Terra
                 _terraSheet,
                 SpriteEffects.None,
                 new string[] { TestTerraAtlas.TerraArmRaise });
-        }        
+        }
 
         public void Update(GameTime deltaTime, Entity entity)
         {                     

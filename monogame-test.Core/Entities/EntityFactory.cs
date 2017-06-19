@@ -34,13 +34,14 @@ namespace monogame_test.Core.Entities
             EntityRegistry = new List<Entity>();
         }
 
-        public Entity CreateTerraEntity()
+        public async Task<Entity> CreateTerraEntity()
         {
             var terraInput = new TerraInputComponent();
-            var terraGraphics = new TerraGraphicsComponent(_graphics, _spriteSheetLoader, _entitySpriteBatch, terraInput);
+            var terraGraphics = new TerraGraphicsComponent(_spriteSheetLoader, _entitySpriteBatch, terraInput);
+            await terraGraphics.Load();
             var terraPhysics = new TerraPhysicsComponent(_mapManager);
 
-            var terra = new Entity(terraInput, terraPhysics, terraGraphics);
+            var terra = new Entity(terraInput, terraPhysics, terraGraphics);            
             terra.Scale = 4f;
             terra.Position = new Vector2(75, 75);
             EntityRegistry.Add(terra);
@@ -49,12 +50,14 @@ namespace monogame_test.Core.Entities
             return terra;
         }
 
-        public Entity CreateTestNpcEntity()
+        public async Task<Entity> CreateTestNpcEntity()
         {
-            var testNpcGraphics = new TestNpcGraphicsComponent();
-            var testNpcPhysics = new TestNpcPhysicsComponent();
+            var testNpcGraphics = new TestNpcGraphicsComponent(_spriteSheetLoader, _entitySpriteBatch);
+            await testNpcGraphics.Load();
+            var testNpcPhysics = new TestNpcPhysicsComponent(_mapManager);
 
             var testNpc = new Entity(testNpcPhysics, testNpcGraphics);
+            testNpc.Scale = 4f;
             testNpc.Position = new Vector2(150, 40);
             EntityRegistry.Add(testNpc);
             return testNpc;

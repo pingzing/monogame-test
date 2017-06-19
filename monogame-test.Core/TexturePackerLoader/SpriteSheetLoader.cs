@@ -19,21 +19,21 @@
             this.contentManager = contentManager;
         }
 
-        public SpriteSheet MultiLoad(string imageResourceFormat, int numSheets)
+        public async Task<SpriteSheet> MultiLoad(string imageResourceFormat, int numSheets)
         {
             SpriteSheet result = new SpriteSheet();
             for (int i = 0; i < numSheets; i++)
             {
                 string imageResource = string.Format(imageResourceFormat, i);
 
-                SpriteSheet tmp = LoadAsync(imageResource);
+                SpriteSheet tmp = await LoadAsync(imageResource);
                 result.Add(tmp);
             }
             return result;
         }
 
 
-        public SpriteSheet LoadAsync(string imageResource)
+        public async Task<SpriteSheet> LoadAsync(string imageResource)
         {
             var texture = this.contentManager.Load<Texture2D>(imageResource);
 
@@ -47,7 +47,7 @@
 
             foreach (
                 var cols in
-                    from row in dataFileLines
+                    from row in await dataFileLines
                     where !string.IsNullOrEmpty(row) && !row.StartsWith("#")
                     select row.Split(';'))
             {
@@ -77,10 +77,10 @@
             return sheet;
         }
         
-        private string[] ReadDataFileAsync(string dataFile) 
+        private async Task<string[]> ReadDataFileAsync(string dataFile) 
         {
 
-            return Task.Run(() => ReadDataFileLinesAsync(dataFile)).Result;            
+            return await ReadDataFileLinesAsync(dataFile);
         }
 
         private async Task<string[]> ReadDataFileLinesAsync(string dataFile)

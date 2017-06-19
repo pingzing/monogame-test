@@ -51,7 +51,7 @@ namespace monogame_test.Core
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent()
+        protected async override void LoadContent()
         {
             GlobalAssets.Load(Content);
             
@@ -62,7 +62,8 @@ namespace monogame_test.Core
             _mapManager.Load();
 
             _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader, _spriteBatch, _mapManager);
-            _factory.CreateTerraEntity();
+            await _factory.CreateTerraEntity();
+            await _factory.CreateTestNpcEntity();
 
             // TODO: use this.Content to load your game content here                                    
         }

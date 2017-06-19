@@ -37,6 +37,7 @@
     <Compile Include="AnimationSystem\AnimationFrame.cs" />
     <Compile Include="CameraSystem\Camera.cs" />
     <Compile Include="Components\IComponent.cs" />
+    <Compile Include="Components\IDialogComponent.cs" />
     <Compile Include="Components\IGraphicsComponent.cs" />
     <Compile Include="Components\IInputComponent.cs" />
     <Compile Include="Components\IPhysicsComponent.cs" />

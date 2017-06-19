@@ -6,6 +6,7 @@ using monogame_test.Core.RenderHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TexturePackerLoader;
 
 namespace monogame_test.Core.Maps
@@ -112,9 +113,9 @@ namespace monogame_test.Core.Maps
             }
         }
 
-        public virtual void Load()
+        public virtual async Task Load()
         {
-            MapSpriteSheet = MapSheetLoader.LoadAsync(TilesetName);
+            MapSpriteSheet = await MapSheetLoader.LoadAsync(TilesetName);
 
             DrawnMap = new MapTile[MapGrid.Count, MapGrid[0].Length];
 
