@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading.Tasks;
 using TexturePackerLoader;
 
 namespace monogame_test.Core.Maps
 {
     public class MapManager
     {
-        public TestMap CurrentMap { get; private set; }
+        public MapBase CurrentMap { get; private set; }
 
         private SpriteSheetLoader _spriteSheetLoader;
         private SpriteBatch _spriteBatch;
@@ -18,21 +19,21 @@ namespace monogame_test.Core.Maps
             CurrentMap = new TestMap(_spriteSheetLoader, _spriteBatch);
         }
 
-        public void Load()
+        public async Task LoadAsync()
         {
-            CurrentMap.Load();
+            await CurrentMap.LoadAsync();
         }
 
-        public void ChangeMap(TestMap newMap)
+        public async Task ChangeMap(TestMap newMap)
         {
             //CurrentMap.Unload(); //todo: implement
-            newMap.Load();
+            await newMap.LoadAsync();
             CurrentMap = newMap;
         }
 
         public void Unload()
         {
-            // TODO: Call Map.Unload().
+            // TODO: Call CurrentMap.Unload().
         }
 
         public void Update(GameTime gameTime)

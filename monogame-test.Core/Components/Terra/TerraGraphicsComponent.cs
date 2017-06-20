@@ -45,7 +45,7 @@ namespace monogame_test.Core.Components.Terra
             _spriteSheetLoader = spriteSheetLoader;            
         }    
         
-        public async Task Load()
+        public async Task LoadAsync()
         {
             _terraSheet = await _spriteSheetLoader.LoadAsync("TestTerraAtlas");
 
@@ -183,7 +183,7 @@ namespace monogame_test.Core.Components.Terra
             var currentFrame = _currentAnimation.GetCurrentFrame();
             _spriteRender.Draw(currentFrame.SpriteFrame,
                 new Vector2(entity.Position.X, entity.Position.Y),
-                1,
+                .5f,
                 Color.White,
                 rotation: 0,
                 scale: entity.Scale,

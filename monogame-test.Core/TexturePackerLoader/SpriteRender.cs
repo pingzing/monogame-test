@@ -36,7 +36,7 @@ namespace TexturePackerLoader
             }            
 
             this.spriteBatch.Draw(sprite.Texture, position, sprite.SourceRectangle, color ?? Color.White,
-                rotation, origin, new Vector2(scale, scale), spriteEffects, 1);                       
+                rotation, origin, new Vector2(scale, scale), spriteEffects, 0.5f);                       
         }
 
         public void Draw(SpriteFrame sprite, Vector2 position, float layerDepth, Color? color = null, float rotation = 0, float scale = 1, SpriteEffects spriteEffects = SpriteEffects.None)

@@ -6,7 +6,7 @@ namespace monogame_test.Core.Components
 {
     public interface IGraphicsComponent : IComponent
     {
-        Task Load();
+        Task LoadAsync();
         void Draw(GameTime deltaTime, Entity entity);
     }
 }

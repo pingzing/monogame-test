@@ -55,6 +55,7 @@
     <Compile Include="Components\Terra\TerraGraphicsComponent.cs" />
     <Compile Include="Components\Terra\TerraInputComponent.cs" />
     <Compile Include="Components\Terra\TerraPhysicsComponent.cs" />
+    <Compile Include="Components\TestNpc\TestNpcDialogComponent.cs" />
     <Compile Include="Components\TestNpc\TestNpcGraphicsComponent.cs" />
     <Compile Include="Components\TestNpc\TestNpcPhysicsComponent.cs" />
     <Compile Include="Content\CafeTileset.cs" />
@@ -62,6 +63,9 @@
     <Compile Include="Content\GlobalTileset.cs" />
     <Compile Include="Content\TestTerraAtlas.cs" />
     <Compile Include="DebugHelpers\DebugConstants.cs" />
+    <Compile Include="DialogueSystem\Dialogue.cs" />
+    <Compile Include="DialogueSystem\DialogueManager.cs" />
+    <Compile Include="DialogueSystem\WordWrapper.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\IEntityState.cs" />

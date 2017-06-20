@@ -61,3 +61,10 @@
 /processorParam:TextureFormat=Color
 /build:CollisionOverlay.png
 
+#begin DialogueFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:DialogueFont.spritefont
+

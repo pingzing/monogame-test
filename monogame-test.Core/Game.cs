@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using monogame_test.Core.CameraSystem;
 using monogame_test.Core.Content;
+using monogame_test.Core.DialogueSystem;
 using monogame_test.Core.Entities;
 using monogame_test.Core.Maps;
+using System.Threading.Tasks;
 using TexturePackerLoader;
 
 namespace monogame_test.Core
@@ -17,9 +19,10 @@ namespace monogame_test.Core
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteSheetLoader _spriteSheetLoader;
-        private EntityFactory _factory;
+        public EntityFactory _factory;
         private Camera _camera;
-        private MapManager _mapManager;        
+        private MapManager _mapManager;
+        private DialogueManager _dialogueManager;
 
         public Game()
         {
@@ -51,7 +54,7 @@ namespace monogame_test.Core
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected async override void LoadContent()
+        protected override void LoadContent()
         {
             GlobalAssets.Load(Content);
             
@@ -59,13 +62,15 @@ namespace monogame_test.Core
             _spriteSheetLoader = new SpriteSheetLoader(this.Content);            
 
             _mapManager = new MapManager(_spriteSheetLoader, _spriteBatch);
-            _mapManager.Load();
+            _mapManager.LoadAsync().ConfigureAwait(false);
 
-            _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader, _spriteBatch, _mapManager);
-            await _factory.CreateTerraEntity();
-            await _factory.CreateTestNpcEntity();
+            SpriteFont defaultFont = Content.Load<SpriteFont>("DialogueFont");
+            _dialogueManager = new DialogueManager(_spriteBatch, defaultFont);
 
-            // TODO: use this.Content to load your game content here                                    
+            _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader,
+                _spriteBatch, _mapManager, _dialogueManager);
+            _factory.CreateTerraEntity().ConfigureAwait(false);
+            _factory.CreateTestNpcEntity().ConfigureAwait(false);       
         }
 
         /// <summary>
@@ -90,12 +95,14 @@ namespace monogame_test.Core
 
             // TODO: Add your update logic here
             _mapManager.Update(gameTime);
-
+            
             foreach (Entity entity in _factory.EntityRegistry)
             {
                 entity.Update(gameTime);
             }
             _camera.Update(_factory.PlayerEntity, _mapManager.CurrentMap);
+            _dialogueManager.Update(gameTime);
+                       
 
             base.Update(gameTime);
         }
@@ -104,7 +111,7 @@ namespace monogame_test.Core
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
+        protected async override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
@@ -114,10 +121,13 @@ namespace monogame_test.Core
 
             _mapManager.Draw(gameTime);
 
+            
             foreach (Entity entity in _factory.EntityRegistry)
             {
                 entity.Draw(gameTime);
             }
+            _dialogueManager.Draw(gameTime);
+            
 
             _spriteBatch.End();
             base.Draw(gameTime);

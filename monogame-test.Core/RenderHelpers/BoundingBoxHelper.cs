@@ -28,7 +28,7 @@ namespace monogame_test.Core.RenderHelpers
             }
             else
             {
-                spriteBatch.Draw(tex, new Vector2((float)rect.X, (float)rect.Y), rect, color, 0.0f, new Vector2(0, 0), 1.0f, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(tex, new Vector2((float)rect.X, (float)rect.Y), rect, color, 0.0f, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0.6f);
             }
 
         }
@@ -46,7 +46,7 @@ namespace monogame_test.Core.RenderHelpers
             }
 
             //spriteBatch.Draw(tex, rec, color);
-            spriteBatch.Draw(tex, rec, null, color, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(tex, rec, null, color, 0.0f, Vector2.Zero, SpriteEffects.None, 0.6f);
         }
     }
 }

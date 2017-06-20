@@ -113,7 +113,7 @@ namespace monogame_test.Core.Maps
             }
         }
 
-        public virtual async Task Load()
+        public virtual async Task LoadAsync()
         {
             MapSpriteSheet = await MapSheetLoader.LoadAsync(TilesetName);
 
@@ -154,7 +154,7 @@ namespace monogame_test.Core.Maps
                 MapRender.Draw(
                     MapSpriteSheet.Sprite(CharToTile[tile.ModelChar]),
                     tile.Position,
-                    0.5f,
+                    0.1f,
                     Color.White,
                     0,
                     1,

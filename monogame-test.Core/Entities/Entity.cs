@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using monogame_test.Core.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,7 @@ namespace monogame_test.Core.Entities
 {
     public class Entity
     {
+        public Guid Id { get; private set; }
         public List<IComponent> Components { get; set; } = new List<IComponent>();
         public IEntityState State { get; set; }
         public float HorizontalAcceleration { get; set; }
@@ -39,11 +41,12 @@ namespace monogame_test.Core.Entities
 
         public Entity()
         {
-            
+            Id = Guid.NewGuid();
         }
 
         public Entity(params IComponent[] components)
         {
+            Id = Guid.NewGuid();
             Components = new List<IComponent>(components);
         }
         

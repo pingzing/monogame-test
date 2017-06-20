@@ -27,7 +27,7 @@ namespace monogame_test.Core.Components.TestNpc
             _spriteRender = new SpriteRender(_spriteBatch);
         }
 
-        public async Task Load()
+        public async Task LoadAsync()
         {
             _testNpcSheet = await _spriteSheetLoader.LoadAsync("TestTerraAtlas");
 
@@ -57,7 +57,7 @@ namespace monogame_test.Core.Components.TestNpc
             var currentFrame = _currentAnimation.GetCurrentFrame();
             _spriteRender.Draw(currentFrame.SpriteFrame,
                 new Vector2(entity.Position.X, entity.Position.Y),
-                layerDepth: 1,
+                layerDepth: 0.5f,
                 color: Color.White,
                 rotation: 0,
                 scale: entity.Scale,

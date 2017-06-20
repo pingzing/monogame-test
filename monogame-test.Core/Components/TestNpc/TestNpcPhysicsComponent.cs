@@ -88,7 +88,7 @@ namespace monogame_test.Core.Components.TestNpc
             entity.BoundingBox = proposedNewBoundingBox;
         }
 
-        private float GetXCorrection(Vector2 proposedNewPosition, Rectangle correctedBoundingBox, TestMap map, Entity entity)
+        private float GetXCorrection(Vector2 proposedNewPosition, Rectangle correctedBoundingBox, MapBase map, Entity entity)
         {
             float xCorrection = 0f;
 
@@ -113,7 +113,7 @@ namespace monogame_test.Core.Components.TestNpc
             return xCorrection;
         }
 
-        private float GetYCorrection(Vector2 proposedNewPosition, Rectangle correctedBoundingBox, TestMap map, Entity entity)
+        private float GetYCorrection(Vector2 proposedNewPosition, Rectangle correctedBoundingBox, MapBase map, Entity entity)
         {
             float yCorrection = 0f;
 

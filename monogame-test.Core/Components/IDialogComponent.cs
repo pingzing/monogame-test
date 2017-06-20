@@ -8,6 +8,7 @@ namespace monogame_test.Core.Components
 {
     interface IDialogComponent : IComponent
     {
-
+        Task LoadAsync();
+        void ProgressDialogue();
     }
 }
