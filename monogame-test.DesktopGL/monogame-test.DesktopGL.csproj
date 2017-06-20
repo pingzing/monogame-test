@@ -117,6 +117,7 @@
     <Content Include="Content\bbox_outline.png" />
     <Content Include="Content\CafeTileset.png" />
     <Content Include="Content\CollisionOverlay.png" />
+    <Content Include="Content\StickSheet.png" />
     <Content Include="Content\TestTerraAtlas.png" />
   </ItemGroup>
   <ItemGroup>

@@ -17,11 +17,7 @@ namespace monogame_test.Core.Components.Terra.States
             if (keyboard.IsKeyDown(Keys.A))
             {
                 entity.State = TerraStates.WalkingLeft;
-            }
-            else if (keyboard.IsKeyDown(Keys.S))
-            {
-                entity.State = TerraStates.WalkingDown;
-            }
+            }            
             else if (keyboard.IsKeyDown(Keys.Space))
             {
                 entity.State = TerraStates.JumpingRight;
@@ -30,11 +26,7 @@ namespace monogame_test.Core.Components.Terra.States
             {
                 entity.Velocity = new Vector2(Math.Min(entity.MaxHorizontalVelocity, entity.Velocity.X + entity.HorizontalAcceleration), 
                     entity.Velocity.Y);
-            }
-            else if (keyboard.IsKeyDown(Keys.W))
-            {
-                entity.State = TerraStates.WalkingUp;
-            }           
+            }                  
             else if (entity.Velocity.X == 0)
             {
                 entity.State = TerraStates.StandingRight;

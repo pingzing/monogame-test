@@ -48,10 +48,8 @@
     <Compile Include="Components\Terra\States\StandingRight.cs" />
     <Compile Include="Components\Terra\States\StandingUp.cs" />
     <Compile Include="Components\Terra\States\TerraStates.cs" />
-    <Compile Include="Components\Terra\States\WalkingDown.cs" />
     <Compile Include="Components\Terra\States\WalkingLeft.cs" />
     <Compile Include="Components\Terra\States\WalkingRight.cs" />
-    <Compile Include="Components\Terra\States\WalkingUp.cs" />
     <Compile Include="Components\Terra\TerraGraphicsComponent.cs" />
     <Compile Include="Components\Terra\TerraInputComponent.cs" />
     <Compile Include="Components\Terra\TerraPhysicsComponent.cs" />
@@ -61,6 +59,7 @@
     <Compile Include="Content\CafeTileset.cs" />
     <Compile Include="Content\GlobalAssets.cs" />
     <Compile Include="Content\GlobalTileset.cs" />
+    <Compile Include="Content\StickSheet.cs" />
     <Compile Include="Content\TestTerraAtlas.cs" />
     <Compile Include="DebugHelpers\DebugConstants.cs" />
     <Compile Include="DialogueSystem\Dialogue.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="TexturePackerLoader\SpriteRender.cs" />
     <Compile Include="TexturePackerLoader\SpriteSheet.cs" />
     <Compile Include="TexturePackerLoader\SpriteSheetLoader.cs" />
+    <Compile Include="TexturePackerLoader\StickSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">

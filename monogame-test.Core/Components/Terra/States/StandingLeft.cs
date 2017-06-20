@@ -21,19 +21,11 @@ namespace monogame_test.Core.Components.Terra.States
             if (keyboard.IsKeyDown(Keys.A))
             {
                 entity.State = TerraStates.WalkingLeft;                
-            }
-            else if (keyboard.IsKeyDown(Keys.S))
-            {
-                entity.State = TerraStates.WalkingDown;                
-            }
+            }            
             else if (keyboard.IsKeyDown(Keys.D))
             {
                 entity.State = TerraStates.WalkingRight;                
-            }
-            else if (keyboard.IsKeyDown(Keys.W))
-            {
-                entity.State = TerraStates.WalkingUp;                
-            }
+            }            
             else if (keyboard.IsKeyDown(Keys.Space))
             {
                 entity.State = TerraStates.JumpingLeft;

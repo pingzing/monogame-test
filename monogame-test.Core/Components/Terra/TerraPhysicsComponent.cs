@@ -13,7 +13,7 @@ namespace monogame_test.Core.Components.Terra
     class TerraPhysicsComponent : IPhysicsComponent
     {
         private MapManager _mapManager;
-        private Point DefaultBoundingBoxSize = new Point(12, 10);
+        private Point DefaultBoundingBoxSize = new Point(16, 64);
         private float Gravity = 9.8f;
         private float DefaultFriction = 10f;
         private float DefaultMaxHorizontalVelocity = 300f;

@@ -15,10 +15,8 @@ namespace monogame_test.Core.Components.Terra.States
         public static StandingRight StandingRight = new StandingRight();
         public static StandingDown StandingDown = new StandingDown();
         public static StandingLeft StandingLeft = new StandingLeft();
-        
-        public static WalkingUp WalkingUp = new WalkingUp();
-        public static WalkingRight WalkingRight = new WalkingRight();
-        public static WalkingDown WalkingDown = new WalkingDown();
+                
+        public static WalkingRight WalkingRight = new WalkingRight();        
         public static WalkingLeft WalkingLeft = new WalkingLeft();
     }
 }

@@ -47,7 +47,6 @@ namespace monogame_test.Core.Entities
             var terraPhysics = new TerraPhysicsComponent(_mapManager);
 
             var terra = new Entity(terraInput, terraPhysics, terraGraphics);            
-            terra.Scale = 4f;
             terra.Position = new Vector2(75, 75);
             EntityRegistry.Add(terra);
             PlayerEntity = terra;

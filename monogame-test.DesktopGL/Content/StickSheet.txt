@@ -1,0 +1,14 @@
+#
+# Sprite sheet data for MonoGame.
+#
+# To learn how to import these sprites into your MonoGame project visit:
+# http://www.codeandweb.com/texturepacker/monogame
+#
+# Sprite sheet: StickSheet.png (128 x 96)
+# $TexturePacker:SmartUpdate:ae0f35cd7c78cc21175d7c9ef94a9903:b04190bff7fadd386f5d060868d199f4:448d9847c0b63317007a0aa1fa13ac55$
+#
+
+stick_jump_right_01;0;1;1;35;90;35;90;0.5;0.5
+stick_stand;0;38;1;29;93;29;93;0.5;0.5
+stick_walk_right_01;0;99;1;28;92;28;92;0.5;0.5
+stick_walk_right_02;0;69;1;28;93;28;93;0.5;0.5

@@ -19,7 +19,7 @@ namespace monogame_test.Core.Components.Terra
         private SpriteBatch _spriteBatch;
         private SpriteRender _spriteRender;
         private SpriteSheetLoader _spriteSheetLoader;
-        private SpriteSheet _terraSheet;
+        private SpriteSheet _stickSheet;
 
         private Animation _standLeftAnimation;
         private Animation _standRightAnimation;
@@ -27,9 +27,7 @@ namespace monogame_test.Core.Components.Terra
         private Animation _standDownAnimation;    
 
         private Animation _walkLeftAnimation;
-        private Animation _walkRightAnimation;
-        private Animation _walkUpAnimation;
-        private Animation _walkDownAnimation;
+        private Animation _walkRightAnimation;        
 
         private Animation _jumpLeftAnimation;
         private Animation _jumpRightAnimation;
@@ -47,79 +45,57 @@ namespace monogame_test.Core.Components.Terra
         
         public async Task LoadAsync()
         {
-            _terraSheet = await _spriteSheetLoader.LoadAsync("TestTerraAtlas");
+            _stickSheet = await _spriteSheetLoader.LoadAsync("StickSheet");
 
             _standLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
-                _terraSheet,
+                _stickSheet,
                 SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandLeft });
+                new string[] { StickSheet.Stick_stand });
 
             _standRightAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
-                _terraSheet,
+                _stickSheet,
                 SpriteEffects.FlipHorizontally,
-                new String[] { TestTerraAtlas.TerraStandLeft });
+                new String[] { StickSheet.Stick_stand });
 
             _standUpAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
-                _terraSheet,
+                _stickSheet,
                 SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandUp });
+                new string[] { StickSheet.Stick_stand });
 
             _standDownAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
-                _terraSheet,
+                _stickSheet,
                 SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandDown });
+                new string[] { StickSheet.Stick_stand });
 
             _walkLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
-                _terraSheet,
-                SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandLeft,
-                     TestTerraAtlas.TerraWalkLeft02,
-                     TestTerraAtlas.TerraStandLeft,
-                     TestTerraAtlas.TerraWalkLeft01 });
+                _stickSheet,
+                SpriteEffects.FlipHorizontally,
+                new string[] { StickSheet.Stick_walk_right_01,
+                StickSheet.Stick_walk_right_02 });
 
             _walkRightAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
-                _terraSheet,
-                SpriteEffects.FlipHorizontally,
-                new string[] {  TestTerraAtlas.TerraStandLeft,
-                     TestTerraAtlas.TerraWalkLeft02,
-                     TestTerraAtlas.TerraStandLeft,
-                     TestTerraAtlas.TerraWalkLeft01 });
-
-            _walkUpAnimation = new Animation(
-                TimeSpan.FromMilliseconds(200),
-                _terraSheet,
+                _stickSheet,
                 SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandUp,
-                TestTerraAtlas.TerraWalkUp01,
-                TestTerraAtlas.TerraStandUp,
-                TestTerraAtlas.TerraWalkUp02});
-
-            _walkDownAnimation = new Animation(
-                TimeSpan.FromMilliseconds(200),
-                _terraSheet,
-                SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraStandDown,
-                TestTerraAtlas.TerraWalkDown01,
-                TestTerraAtlas.TerraStandDown,
-                TestTerraAtlas.TerraWalkDown02});
+                new string[] {  StickSheet.Stick_walk_right_01,
+                StickSheet.Stick_walk_right_02 });            
 
             _jumpRightAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
-                _terraSheet,
-                SpriteEffects.FlipHorizontally,
-                new string[] { TestTerraAtlas.TerraArmRaise });
+                _stickSheet,
+                SpriteEffects.None,
+                new string[] { StickSheet.Stick_jump_right_01 });
 
             _jumpLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
-                _terraSheet,
-                SpriteEffects.None,
-                new string[] { TestTerraAtlas.TerraArmRaise });
+                _stickSheet,
+                SpriteEffects.FlipHorizontally,
+                new string[] { StickSheet.Stick_jump_right_01 });
         }
 
         public void Update(GameTime deltaTime, Entity entity)
@@ -143,19 +119,11 @@ namespace monogame_test.Core.Components.Terra
             else if (entity.State is WalkingLeft)
             {
                 _currentAnimation = _walkLeftAnimation;
-            }
-            else if (entity.State is WalkingDown)
-            {
-                _currentAnimation = _walkDownAnimation;
-            }
+            }            
             else if (entity.State is WalkingRight)
             {
                 _currentAnimation = _walkRightAnimation;
-            }
-            else if (entity.State is WalkingUp)
-            {
-                _currentAnimation = _walkUpAnimation;
-            }
+            }            
             else if (entity.State is JumpingLeft)
             {
                 _currentAnimation = _jumpLeftAnimation;
@@ -174,7 +142,7 @@ namespace monogame_test.Core.Components.Terra
             Vector2 currentFrameOrigin = _currentAnimation.GetCurrentFrame().SpriteFrame.Origin;
             if (entity.BoundingBoxOrigin == default(Vector2) )
             {
-                entity.BoundingBoxOrigin = new Vector2(currentFrameOrigin.X, currentFrameOrigin.Y - 12);
+                entity.BoundingBoxOrigin = new Vector2(currentFrameOrigin.X - 5, currentFrameOrigin.Y - 30);
             }
         }
 
