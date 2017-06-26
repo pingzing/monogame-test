@@ -61,7 +61,7 @@ namespace monogame_test.Core.Entities
         
         public virtual void Draw(GameTime deltaTime)
         {
-            foreach(var graphicsComponent in Components.OfType<IGraphicsComponent>())
+            foreach(var graphicsComponent in Components.OfType<IDrawableComponent>())
             {
                 graphicsComponent.Draw(deltaTime, this);
             }

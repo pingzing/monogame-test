@@ -42,8 +42,10 @@ namespace monogame_test.Core.Entities
             var playerGraphics = new PlayerGraphicsComponent(_spriteSheetLoader, _entitySpriteBatch, playerInput);
             await playerGraphics.LoadAsync();
             var playerPhysics = new PlayerPhysicsComponent(_mapManager);
+            var playerAttack = new PlayerAttackComponent(_spriteSheetLoader, _entitySpriteBatch);
+            await playerAttack.LoadAsync();
 
-            var player = new Entity(playerInput, playerPhysics, playerGraphics);            
+            var player = new Entity(playerInput, playerPhysics, playerGraphics, playerAttack);
             player.Position = new Vector2(75, 75);
             EntityRegistry.Add(player);
             PlayerEntity = player;

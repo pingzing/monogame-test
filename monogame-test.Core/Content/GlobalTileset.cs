@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexturePackerMonoGameDefinitions
 {
-    public class GlobalTileset
+    public static class GlobalTileset
     {
         public const string Empty = "empty";
     }

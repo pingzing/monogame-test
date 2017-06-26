@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace monogame_test.Core.Components
 {
-    public interface IGraphicsComponent : IComponent
+    public interface IGraphicsComponent : IDrawableComponent
     {
-        Task LoadAsync();
-        void Draw(GameTime deltaTime, Entity entity);
+        Task LoadAsync();        
     }
 }

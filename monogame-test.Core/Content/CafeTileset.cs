@@ -9,7 +9,7 @@
  */
 namespace TexturePackerMonoGameDefinitions
 {
-	public class CafeTileset
+	public static class CafeTileset
 	{
 		public const string Barrel = "barrel";
 		public const string BrickBlock = "brick-block";

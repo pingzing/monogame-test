@@ -1,9 +1,8 @@
 ﻿using monogame_test.Core.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using monogame_test.Core.Components.Terra.States;
-using System;
 using System.Linq;
+using monogame_test.Core.Components.Player.States;
 
 namespace monogame_test.Core.Components.Player
 {

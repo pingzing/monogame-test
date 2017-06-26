@@ -9,7 +9,7 @@
  */
 namespace TexturePackerMonoGameDefinitions
 {
-	public class StickSheet
+	public static class StickSheet
 	{
 		public const string StickPunch1 = "StickPunch1";
 		public const string StickPunch2 = "StickPunch2";

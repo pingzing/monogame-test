@@ -9,7 +9,7 @@
  */
 namespace TexturePackerMonoGameDefinitions
 {
-	public class TestTerraAtlas
+	public static class TestTerraAtlas
 	{
 		public const string TerraArmRaise = "terra_arm_raise";
 		public const string TerraStandDown = "terra_stand_down";

@@ -3,8 +3,8 @@ using monogame_test.Core.Entities;
 
 namespace monogame_test.Core.Components
 {
-    public interface IAttackComponent : IComponent
+    public interface IDrawableComponent : IComponent
     {
-        void Draw(Entity entity, GameTime gameTime);
+        void Draw(GameTime gameTime, Entity entity);
     }
 }

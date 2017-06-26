@@ -69,6 +69,7 @@ namespace monogame_test.Core
             loadTasks.Add(_mapManager.LoadAsync());
 
             SpriteFont defaultFont = Content.Load<SpriteFont>("DialogueFont");
+            Texture2D deleteme = Content.Load<Texture2D>("EffectsSheet");
             _dialogueManager = new DialogueManager(_spriteBatch, defaultFont);
 
             _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader,

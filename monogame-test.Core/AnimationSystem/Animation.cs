@@ -11,15 +11,22 @@ namespace monogame_test.Core.AnimationSystem
     {
         private readonly AnimationFrame[] _frames;
         private TimeSpan _timeElapsed;
+        public bool IsLooping { get; set; } = true;
 
         private TimeSpan Duration => TimeSpan.FromTicks(_frames.Sum(x => x.Duration.Ticks));        
             
         public Animation(AnimationFrame[] frames)
         {
             _frames = frames;
-        }        
+        }
+        public Animation(AnimationFrame[] frames, bool isLooping)
+        {
+            _frames = frames;
+            IsLooping = isLooping;
+        }
 
-        public Animation(TimeSpan timeBetweenFrames, SpriteSheet spriteSheet, SpriteEffects effect, IEnumerable<string> spriteNames)
+        public Animation(TimeSpan timeBetweenFrames, SpriteSheet spriteSheet, SpriteEffects effect, 
+            IEnumerable<string> spriteNames)
         {
             _frames = spriteNames.Select(x =>            
                 new AnimationFrame
@@ -29,6 +36,20 @@ namespace monogame_test.Core.AnimationSystem
                     SpriteEffect = effect
                 })
                 .ToArray();
+        }
+
+        public Animation(TimeSpan timeBetweenFrames, SpriteSheet spriteSheet, SpriteEffects effect,
+            bool isLooping, IEnumerable<string> spriteNames)
+        {
+            _frames = spriteNames.Select(x =>
+                new AnimationFrame
+                {
+                    Duration = timeBetweenFrames,
+                    SpriteFrame = spriteSheet.Sprite(x),
+                    SpriteEffect = effect
+                })
+                .ToArray();
+            IsLooping = isLooping;
         }
 
         // TODO: Updating this mid-animation will usually skip us forward a few frames. Address this somehow, maybe by explicitly setting _timeElapsed.
@@ -52,6 +73,7 @@ namespace monogame_test.Core.AnimationSystem
             _timeElapsed = TimeSpan.FromMilliseconds(remainder);
         }
 
+        //TODO: Finish implementing IsLooping
         public AnimationFrame GetCurrentFrame()
         {
             AnimationFrame currentFrame = null;
