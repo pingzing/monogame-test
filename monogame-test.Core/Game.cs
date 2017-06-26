@@ -6,6 +6,7 @@ using monogame_test.Core.Content;
 using monogame_test.Core.DialogueSystem;
 using monogame_test.Core.Entities;
 using monogame_test.Core.Maps;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TexturePackerLoader;
 
@@ -57,20 +58,26 @@ namespace monogame_test.Core
         protected override void LoadContent()
         {
             GlobalAssets.Load(Content);
+
+            List<Task> loadTasks = new List<Task>();
             
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _spriteSheetLoader = new SpriteSheetLoader(this.Content);            
 
-            _mapManager = new MapManager(_spriteSheetLoader, _spriteBatch);
-            _mapManager.LoadAsync().ConfigureAwait(false);
+            _mapManager = new MapManager(_spriteSheetLoader, _spriteBatch);            
+
+            loadTasks.Add(_mapManager.LoadAsync());
 
             SpriteFont defaultFont = Content.Load<SpriteFont>("DialogueFont");
             _dialogueManager = new DialogueManager(_spriteBatch, defaultFont);
 
             _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader,
                 _spriteBatch, _mapManager, _dialogueManager);
-            _factory.CreateTerraEntity().ConfigureAwait(false);
-            _factory.CreateTestNpcEntity().ConfigureAwait(false);       
+            loadTasks.Add(_factory.CreateTerraEntity());
+            loadTasks.Add(_factory.CreateTestNpcEntity());
+
+            // Force synchronous wait on await calls
+            Task.WhenAll(loadTasks).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>

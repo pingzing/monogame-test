@@ -18,5 +18,8 @@ namespace monogame_test.Core.Components.Terra.States
                 
         public static WalkingRight WalkingRight = new WalkingRight();        
         public static WalkingLeft WalkingLeft = new WalkingLeft();
+
+        public static PunchingLeft PunchingLeft = new PunchingLeft();
+        public static PunchingRight PunchingRight = new PunchingRight();
     }
 }

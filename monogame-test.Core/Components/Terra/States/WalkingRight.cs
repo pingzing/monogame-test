@@ -27,6 +27,10 @@ namespace monogame_test.Core.Components.Terra.States
                 entity.Velocity = new Vector2(Math.Min(entity.MaxHorizontalVelocity, entity.Velocity.X + entity.HorizontalAcceleration), 
                     entity.Velocity.Y);
             }                  
+            else if (keyboard.IsKeyDown(Keys.X))
+            {
+                entity.State = TerraStates.PunchingRight;
+            }
             else if (entity.Velocity.X == 0)
             {
                 entity.State = TerraStates.StandingRight;

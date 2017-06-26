@@ -43,6 +43,8 @@
     <Compile Include="Components\IPhysicsComponent.cs" />
     <Compile Include="Components\Terra\States\JumpingLeft.cs" />
     <Compile Include="Components\Terra\States\JumpingRight.cs" />
+    <Compile Include="Components\Terra\States\PunchingLeft.cs" />
+    <Compile Include="Components\Terra\States\PunchingRight.cs" />
     <Compile Include="Components\Terra\States\StandingDown.cs" />
     <Compile Include="Components\Terra\States\StandingLeft.cs" />
     <Compile Include="Components\Terra\States\StandingRight.cs" />

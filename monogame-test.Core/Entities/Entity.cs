@@ -12,7 +12,7 @@ namespace monogame_test.Core.Entities
         public List<IComponent> Components { get; set; } = new List<IComponent>();
         public IEntityState State { get; set; }
         public float HorizontalAcceleration { get; set; }
-        public float MaxHorizontalVelocity { get; set; }
+        public float MaxHorizontalVelocity {    get; set; }
         public bool IsAirbone { get; set; }
         public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }

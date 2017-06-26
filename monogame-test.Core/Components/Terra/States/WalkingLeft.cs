@@ -27,7 +27,11 @@ namespace monogame_test.Core.Components.Terra.States
             else if (keyboard.IsKeyDown(Keys.D))
             {
                 entity.State = TerraStates.WalkingRight;
-            }                 
+            }
+            else if (keyboard.IsKeyDown(Keys.X))
+            {
+                entity.State = TerraStates.PunchingLeft;
+            }
             else if (entity.Velocity.X == 0)
             {
                 entity.State = TerraStates.StandingLeft;

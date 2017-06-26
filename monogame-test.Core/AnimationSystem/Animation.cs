@@ -40,6 +40,11 @@ namespace monogame_test.Core.AnimationSystem
             }
         }
 
+        public void Reset()
+        {
+            _timeElapsed = TimeSpan.Zero;
+        }
+
         public void Update(GameTime deltaTime)
         {
             double millisecondsElapsed = _timeElapsed.TotalMilliseconds + deltaTime.ElapsedGameTime.TotalMilliseconds;

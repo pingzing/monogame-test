@@ -32,6 +32,9 @@ namespace monogame_test.Core.Components.Terra
         private Animation _jumpLeftAnimation;
         private Animation _jumpRightAnimation;
 
+        private Animation _punchRightAnimation;
+        private Animation _punchLeftAnimation;
+
         private Animation _currentAnimation;           
 
         public TerraGraphicsComponent(SpriteSheetLoader spriteSheetLoader, SpriteBatch spriteBatch, 
@@ -41,8 +44,8 @@ namespace monogame_test.Core.Components.Terra
             _spriteBatch = spriteBatch;
             _spriteRender = new SpriteRender(_spriteBatch);
             _spriteSheetLoader = spriteSheetLoader;            
-        }    
-        
+        }
+
         public async Task LoadAsync()
         {
             _stickSheet = await _spriteSheetLoader.LoadAsync("StickSheet");
@@ -51,99 +54,144 @@ namespace monogame_test.Core.Components.Terra
                 TimeSpan.FromMilliseconds(300),
                 _stickSheet,
                 SpriteEffects.None,
-                new string[] { StickSheet.Stick_stand });
+                new string[] { StickSheet.StickStand });
 
             _standRightAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
                 _stickSheet,
                 SpriteEffects.FlipHorizontally,
-                new String[] { StickSheet.Stick_stand });
+                new String[] { StickSheet.StickStand });
 
             _standUpAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
                 _stickSheet,
                 SpriteEffects.None,
-                new string[] { StickSheet.Stick_stand });
+                new string[] { StickSheet.StickStand });
 
             _standDownAnimation = new Animation(
                 TimeSpan.FromMilliseconds(300),
                 _stickSheet,
                 SpriteEffects.None,
-                new string[] { StickSheet.Stick_stand });
+                new string[] { StickSheet.StickStand });
 
             _walkLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
                 _stickSheet,
                 SpriteEffects.FlipHorizontally,
-                new string[] { StickSheet.Stick_walk_right_01,
-                StickSheet.Stick_walk_right_02 });
+                new string[] { StickSheet.StickWalkRight01,
+                StickSheet.StickWalkRight02,
+                StickSheet.StickWalkRight03,
+                StickSheet.StickWalkRight02});
 
             _walkRightAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
                 _stickSheet,
                 SpriteEffects.None,
-                new string[] {  StickSheet.Stick_walk_right_01,
-                StickSheet.Stick_walk_right_02 });            
+                new string[] { StickSheet.StickWalkRight01,
+                StickSheet.StickWalkRight02,
+                StickSheet.StickWalkRight03,
+                StickSheet.StickWalkRight02});
 
             _jumpRightAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
                 _stickSheet,
                 SpriteEffects.None,
-                new string[] { StickSheet.Stick_jump_right_01 });
+                new string[] { StickSheet.StickRightJump01 });
 
             _jumpLeftAnimation = new Animation(
                 TimeSpan.FromMilliseconds(200),
                 _stickSheet,
                 SpriteEffects.FlipHorizontally,
-                new string[] { StickSheet.Stick_jump_right_01 });
+                new string[] { StickSheet.StickRightJump01 });
+
+            _punchRightAnimation = new Animation(
+                TimeSpan.FromMilliseconds(150),
+                _stickSheet,
+                SpriteEffects.None,
+                new string[] {
+                    StickSheet.StickPunch3,
+                    StickSheet.StickPunch2,
+                    StickSheet.StickPunch1,
+                    StickSheet.StickPunch1 });
+
+            _punchLeftAnimation = new Animation(
+                TimeSpan.FromMilliseconds(150),
+                _stickSheet,
+                SpriteEffects.FlipHorizontally,
+                new string[] {
+                    StickSheet.StickPunch3,
+                    StickSheet.StickPunch2,
+                    StickSheet.StickPunch1,                                    
+                    StickSheet.StickPunch1 });
         }
+
 
         public void Update(GameTime deltaTime, Entity entity)
         {                     
             if (entity.State is StandingDown)
             {
-                _currentAnimation = _standDownAnimation;
+                SetCurrentAnimation(_standDownAnimation, entity, deltaTime);
             }
             else if (entity.State is StandingLeft)
             {
-                _currentAnimation = _standLeftAnimation;
+                SetCurrentAnimation(_standLeftAnimation, entity, deltaTime);                
             }
             else if (entity.State is StandingRight)
             {
-                _currentAnimation = _standRightAnimation;
+                SetCurrentAnimation(_standRightAnimation, entity, deltaTime);                
             }
             else if (entity.State is StandingUp)
             {
-                _currentAnimation = _standUpAnimation;
+                SetCurrentAnimation(_standUpAnimation, entity, deltaTime);                
             }
             else if (entity.State is WalkingLeft)
             {
-                _currentAnimation = _walkLeftAnimation;
+                SetCurrentAnimation(_walkLeftAnimation, entity, deltaTime);                
             }            
             else if (entity.State is WalkingRight)
             {
-                _currentAnimation = _walkRightAnimation;
+                SetCurrentAnimation(_walkRightAnimation, entity, deltaTime);
             }            
             else if (entity.State is JumpingLeft)
             {
-                _currentAnimation = _jumpLeftAnimation;
+                SetCurrentAnimation(_jumpLeftAnimation, entity, deltaTime);                
             }
             else if (entity.State is JumpingRight)
             {
-                _currentAnimation = _jumpRightAnimation;
+                SetCurrentAnimation(_jumpRightAnimation, entity, deltaTime);                
             }           
+            else if (entity.State is PunchingLeft)
+            {
+                SetCurrentAnimation(_punchLeftAnimation, entity, deltaTime);                
+            }
+            else if (entity.State is PunchingRight)
+            {
+                SetCurrentAnimation(_punchRightAnimation, entity, deltaTime);                
+            }                       
 
+            // Set the sprite bounding box origin if it hasn't been set yet
+            Vector2 currentFrameOrigin = _currentAnimation.GetCurrentFrame().SpriteFrame.Origin;
+            if (entity.BoundingBoxOrigin == default(Vector2))
+            {
+                // ewwww magic numbers
+                entity.BoundingBoxOrigin = new Vector2(currentFrameOrigin.X - 40, currentFrameOrigin.Y);
+            }            
+        }
+
+        private void SetCurrentAnimation(Animation animation, Entity entity, GameTime deltaTime)
+        {
+            if (_currentAnimation != animation)
+            {
+                _currentAnimation = animation;
+                _currentAnimation.Reset();
+            }            
+
+            // Adjust time-till-next-frame based on horizontal velocity
             TimeSpan newFrameTime = TimeSpan.FromMilliseconds(
                 150 /
                 Math.Max(1, ((Math.Abs(entity.Velocity.X)) / 150)));
             _currentAnimation.SetTimeBetweenFrames(newFrameTime);
             _currentAnimation.Update(deltaTime);
-
-            Vector2 currentFrameOrigin = _currentAnimation.GetCurrentFrame().SpriteFrame.Origin;
-            if (entity.BoundingBoxOrigin == default(Vector2) )
-            {
-                entity.BoundingBoxOrigin = new Vector2(currentFrameOrigin.X - 5, currentFrameOrigin.Y - 30);
-            }
         }
 
         public void Draw(GameTime deltaTime, Entity entity)

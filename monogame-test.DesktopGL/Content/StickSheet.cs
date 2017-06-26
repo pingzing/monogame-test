@@ -4,16 +4,17 @@
  * Contains references to each image within the sprite sheet.
  *
  * http://www.codeandweb.com/texturepacker
- * $TexturePacker:SmartUpdate:ae0f35cd7c78cc21175d7c9ef94a9903:b04190bff7fadd386f5d060868d199f4:448d9847c0b63317007a0aa1fa13ac55$
+ * $TexturePacker:SmartUpdate:10adc0d4bffcd1f67e82c132940ee0e8:ef4829ce5cb48e33e39effd8aef4d7c8:448d9847c0b63317007a0aa1fa13ac55$
  *
  */
 namespace TexturePackerMonoGameDefinitions
 {
 	public class unsaved
 	{
-		public const string Stick_jump_right_01 = "stick_jump_right_01";
-		public const string Stick_stand = "stick_stand";
-		public const string Stick_walk_right_01 = "stick_walk_right_01";
-		public const string Stick_walk_right_02 = "stick_walk_right_02";
+		public const string StickRightJump01 = "StickRightJump01";
+		public const string StickStand = "StickStand";
+		public const string StickWalkRight01 = "StickWalkRight01";
+		public const string StickWalkRight02 = "StickWalkRight02";
+		public const string StickWalkRight03 = "StickWalkRight03";
 	}
 }
