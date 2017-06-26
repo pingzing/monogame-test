@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework;
 using monogame_test.Core.Maps;
 using monogame_test.Core.RenderHelpers;
 
-namespace monogame_test.Core.Components.Terra
+namespace monogame_test.Core.Components.Player
 {
-    class TerraPhysicsComponent : IPhysicsComponent
+    class PlayerPhysicsComponent : IPhysicsComponent
     {
         private MapManager _mapManager;
         private Point DefaultBoundingBoxSize = new Point(16, 64);
@@ -19,7 +19,7 @@ namespace monogame_test.Core.Components.Terra
         private float DefaultMaxHorizontalVelocity = 300f;
             
 
-        public TerraPhysicsComponent(MapManager mapManager)
+        public PlayerPhysicsComponent(MapManager mapManager)
         {
             _mapManager = mapManager;
         }

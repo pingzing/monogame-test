@@ -5,13 +5,13 @@ using monogame_test.Core.Components.Terra.States;
 using System;
 using System.Linq;
 
-namespace monogame_test.Core.Components.Terra
+namespace monogame_test.Core.Components.Player
 {
-    public class TerraInputComponent : IInputComponent
+    public class PlayerInputComponent : IInputComponent
     {
         private EntityFactory _factory;
 
-        public TerraInputComponent(EntityFactory factory)
+        public PlayerInputComponent(EntityFactory factory)
         {
             _factory = factory;
         }
@@ -39,7 +39,7 @@ namespace monogame_test.Core.Components.Terra
 
             if (entity.State == null)
             {
-                entity.State = TerraStates.StandingDown;
+                entity.State = PlayerStates.Standing;
             }
 
             IEntityState oldState = entity.State;

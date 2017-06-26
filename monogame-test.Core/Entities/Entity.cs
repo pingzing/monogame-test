@@ -16,7 +16,8 @@ namespace monogame_test.Core.Entities
         public bool IsAirbone { get; set; }
         public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }
-        public float Scale { get; set; } = 1.0f;        
+        public float Scale { get; set; } = 1.0f;
+        public Facing CurrentFacing { get; set; } = Facing.Right;
 
         private Rectangle _boundingBox;
         public Rectangle BoundingBox

@@ -2,19 +2,16 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
-namespace monogame_test.Core.Components.Terra.States
+namespace monogame_test.Core.Components.Player.States
 {
-    public class PunchingRight : IEntityState
+    public class Punching : IEntityState
     {
         private const int AttackMaxTicks = 34;
         private int _currentAttackTicks = 0;
 
         public void EnterState(Entity entity, IEntityState oldState)
         {
-            if (entity.Velocity.X != 0)
-            {
-                entity.Velocity = new Vector2(entity.Velocity.X / 2, entity.Velocity.Y);
-            }            
+            
         }
 
         public void Update(Entity entity, KeyboardState keyboard)
@@ -23,12 +20,12 @@ namespace monogame_test.Core.Components.Terra.States
             {
                 if (entity.IsAirbone)
                 {
-                    entity.State = TerraStates.JumpingRight;
+                    entity.State = PlayerStates.Jumping;
                     _currentAttackTicks = 0;
                 }
                 else
                 {
-                    entity.State = TerraStates.WalkingRight;
+                    entity.State = PlayerStates.Walking;
                     _currentAttackTicks = 0;
                 }
             }

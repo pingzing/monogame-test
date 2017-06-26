@@ -46,7 +46,7 @@ namespace monogame_test.Core
             _camera.ViewportWidth = _graphics.GraphicsDevice.Viewport.Width;
             _camera.ViewportHeight = _graphics.GraphicsDevice.Viewport.Height;
 
-            DebugHelpers.DebugConstants.ShowBoundingBoxes = true;
+            //DebugHelpers.DebugConstants.ShowBoundingBoxes = true;
 
             base.Initialize();
         }
@@ -73,7 +73,7 @@ namespace monogame_test.Core
 
             _factory = new EntityFactory(_graphics.GraphicsDevice, _spriteSheetLoader,
                 _spriteBatch, _mapManager, _dialogueManager);
-            loadTasks.Add(_factory.CreateTerraEntity());
+            loadTasks.Add(_factory.CreatePlayerEntity());
             loadTasks.Add(_factory.CreateTestNpcEntity());
 
             // Force synchronous wait on await calls
@@ -118,7 +118,7 @@ namespace monogame_test.Core
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected async override void Draw(GameTime gameTime)
+        protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here

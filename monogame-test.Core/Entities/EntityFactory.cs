@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using monogame_test.Core.Components.Terra;
+using monogame_test.Core.Components.Player;
 using monogame_test.Core.Components.TestNpc;
 using monogame_test.Core.DialogueSystem;
 using monogame_test.Core.Maps;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TexturePackerLoader;
 
@@ -39,19 +36,19 @@ namespace monogame_test.Core.Entities
             EntityRegistry = new List<Entity>();
         }
 
-        public async Task<Entity> CreateTerraEntity()
+        public async Task<Entity> CreatePlayerEntity()
         {
-            var terraInput = new TerraInputComponent(this);
-            var terraGraphics = new TerraGraphicsComponent(_spriteSheetLoader, _entitySpriteBatch, terraInput);
-            await terraGraphics.LoadAsync();
-            var terraPhysics = new TerraPhysicsComponent(_mapManager);
+            var playerInput = new PlayerInputComponent(this);
+            var playerGraphics = new PlayerGraphicsComponent(_spriteSheetLoader, _entitySpriteBatch, playerInput);
+            await playerGraphics.LoadAsync();
+            var playerPhysics = new PlayerPhysicsComponent(_mapManager);
 
-            var terra = new Entity(terraInput, terraPhysics, terraGraphics);            
-            terra.Position = new Vector2(75, 75);
-            EntityRegistry.Add(terra);
-            PlayerEntity = terra;
+            var player = new Entity(playerInput, playerPhysics, playerGraphics);            
+            player.Position = new Vector2(75, 75);
+            EntityRegistry.Add(player);
+            PlayerEntity = player;
 
-            return terra;
+            return player;
         }
 
         public async Task<Entity> CreateTestNpcEntity()

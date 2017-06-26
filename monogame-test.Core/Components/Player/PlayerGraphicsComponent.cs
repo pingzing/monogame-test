@@ -6,16 +6,16 @@ using monogame_test.Core.AnimationSystem;
 using Microsoft.Xna.Framework;
 using TexturePackerMonoGameDefinitions;
 using monogame_test.Core.RenderHelpers;
-using monogame_test.Core.Components.Terra.States;
 using monogame_test.Core.Content;
 using monogame_test.Core.DebugHelpers;
 using System.Threading.Tasks;
+using monogame_test.Core.Components.Player.States;
 
-namespace monogame_test.Core.Components.Terra
+namespace monogame_test.Core.Components.Player
 {
-    public class TerraGraphicsComponent : IGraphicsComponent
+    public class PlayerGraphicsComponent : IGraphicsComponent
     {
-        private TerraInputComponent _terraInput;
+        private PlayerInputComponent _playerInput;
         private SpriteBatch _spriteBatch;
         private SpriteRender _spriteRender;
         private SpriteSheetLoader _spriteSheetLoader;
@@ -37,10 +37,10 @@ namespace monogame_test.Core.Components.Terra
 
         private Animation _currentAnimation;           
 
-        public TerraGraphicsComponent(SpriteSheetLoader spriteSheetLoader, SpriteBatch spriteBatch, 
-            TerraInputComponent terraInput)
+        public PlayerGraphicsComponent(SpriteSheetLoader spriteSheetLoader, SpriteBatch spriteBatch, 
+            PlayerInputComponent playerInput)
         {
-            _terraInput = terraInput;
+            _playerInput = playerInput;
             _spriteBatch = spriteBatch;
             _spriteRender = new SpriteRender(_spriteBatch);
             _spriteSheetLoader = spriteSheetLoader;            
@@ -127,46 +127,54 @@ namespace monogame_test.Core.Components.Terra
 
 
         public void Update(GameTime deltaTime, Entity entity)
-        {                     
-            if (entity.State is StandingDown)
+        {                                 
+            if (entity.State is Standing)
             {
-                SetCurrentAnimation(_standDownAnimation, entity, deltaTime);
-            }
-            else if (entity.State is StandingLeft)
+                if (entity.CurrentFacing == Facing.Left)
+                {
+                    SetCurrentAnimation(_standLeftAnimation, entity, deltaTime);
+                }
+                else if (entity.CurrentFacing == Facing.Right
+                    || entity.CurrentFacing == Facing.Up || entity.CurrentFacing == Facing.Down)
+                {
+                    SetCurrentAnimation(_standRightAnimation, entity, deltaTime);
+                }
+            }                                    
+            else if (entity.State is Walking)
             {
-                SetCurrentAnimation(_standLeftAnimation, entity, deltaTime);                
-            }
-            else if (entity.State is StandingRight)
-            {
-                SetCurrentAnimation(_standRightAnimation, entity, deltaTime);                
-            }
-            else if (entity.State is StandingUp)
-            {
-                SetCurrentAnimation(_standUpAnimation, entity, deltaTime);                
-            }
-            else if (entity.State is WalkingLeft)
-            {
-                SetCurrentAnimation(_walkLeftAnimation, entity, deltaTime);                
+                if (entity.CurrentFacing == Facing.Left)
+                {
+                    SetCurrentAnimation(_walkLeftAnimation, entity, deltaTime);
+                }
+                else if (entity.CurrentFacing == Facing.Right
+                    || entity.CurrentFacing == Facing.Up || entity.CurrentFacing == Facing.Down)
+                {
+                    SetCurrentAnimation(_walkRightAnimation, entity, deltaTime);
+                }
             }            
-            else if (entity.State is WalkingRight)
+            else if (entity.State is Jumping)
             {
-                SetCurrentAnimation(_walkRightAnimation, entity, deltaTime);
-            }            
-            else if (entity.State is JumpingLeft)
+                if (entity.CurrentFacing == Facing.Left)
+                {
+                    SetCurrentAnimation(_jumpLeftAnimation, entity, deltaTime);
+                }
+                else if (entity.CurrentFacing == Facing.Right
+                    || entity.CurrentFacing == Facing.Up || entity.CurrentFacing == Facing.Down)
+                {
+                    SetCurrentAnimation(_jumpRightAnimation, entity, deltaTime);
+                }
+            }                             
+            else if (entity.State is Punching)
             {
-                SetCurrentAnimation(_jumpLeftAnimation, entity, deltaTime);                
-            }
-            else if (entity.State is JumpingRight)
-            {
-                SetCurrentAnimation(_jumpRightAnimation, entity, deltaTime);                
-            }           
-            else if (entity.State is PunchingLeft)
-            {
-                SetCurrentAnimation(_punchLeftAnimation, entity, deltaTime);                
-            }
-            else if (entity.State is PunchingRight)
-            {
-                SetCurrentAnimation(_punchRightAnimation, entity, deltaTime);                
+                if (entity.CurrentFacing == Facing.Left)
+                {
+                    SetCurrentAnimation(_punchLeftAnimation, entity, deltaTime);
+                }
+                else if (entity.CurrentFacing == Facing.Right
+                    || entity.CurrentFacing == Facing.Up || entity.CurrentFacing == Facing.Down)
+                {
+                    SetCurrentAnimation(_punchRightAnimation, entity, deltaTime);
+                }
             }                       
 
             // Set the sprite bounding box origin if it hasn't been set yet

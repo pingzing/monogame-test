@@ -7,32 +7,34 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
-namespace monogame_test.Core.Components.Terra.States
+namespace monogame_test.Core.Components.Player.States
 {
-    public class StandingRight : IEntityState
+    public class Standing : IEntityState
     {
         public void EnterState(Entity entity, IEntityState oldState)
         {
-            //entity.Velocity = new Vector2(0, entity.Velocity.Y);
+            
         }
 
         public void Update(Entity entity, KeyboardState keyboard)
         {
             if (keyboard.IsKeyDown(Keys.A))
             {
-                entity.State = TerraStates.WalkingLeft;                
+                entity.CurrentFacing = Facing.Left;
+                entity.State = PlayerStates.Walking;                
             }            
             else if (keyboard.IsKeyDown(Keys.D))
             {
-                entity.State = TerraStates.WalkingRight;                
+                entity.CurrentFacing = Facing.Right;
+                entity.State = PlayerStates.Walking;                
             }
             else if (keyboard.IsKeyDown(Keys.X))
             {
-                entity.State = TerraStates.PunchingRight;
+                entity.State = PlayerStates.Punching;
             }
             else if (keyboard.IsKeyDown(Keys.Space))
             {
-                entity.State = TerraStates.JumpingRight;
+                entity.State = PlayerStates.Jumping;
             }
         }
     }
